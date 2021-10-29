@@ -7,53 +7,101 @@
           "info": "Schema for storing address book information",
           "enumerations": [
             {
+              "proto3_": {
+                "path": "address_book.proto:/Settings/Color"
+              },
               "name": "address_book_color",
               "values": [
                 {
+                  "proto3_": {
+                    "path": "VIOLET"
+                  },
                   "name": "violet"
                 },
                 {
+                  "proto3_": {
+                    "path": "INDIGO"
+                  },
                   "name": "indigo"
                 },
                 {
+                  "proto3_": {
+                    "path": "BLUE"
+                  },
                   "name": "blue"
                 },
                 {
+                  "proto3_": {
+                    "path": "GREEN"
+                  },
                   "name": "green"
                 },
                 {
+                  "proto3_": {
+                    "path": "YELLOW"
+                  },
                   "name": "yellow"
                 },
                 {
+                  "proto3_": {
+                    "path": "ORANGE"
+                  },
                   "name": "orange"
                 },
                 {
+                  "proto3_": {
+                    "path": "RED"
+                  },
                   "name": "red"
                 }
               ]
             },
             {
+              "proto3_": {
+                "path": "person.proto:/Relationship"
+              },
               "name": "address_book_relationship",
               "values": [
                 {
+                  "proto3_": {
+                    "path": "PARENT"
+                  },
                   "name": "parent"
                 },
                 {
+                  "proto3_": {
+                    "path": "CHILD"
+                  },
                   "name": "child"
                 },
                 {
+                  "proto3_": {
+                    "path": "SPOUSE"
+                  },
                   "name": "spouse"
                 },
                 {
+                  "proto3_": {
+                    "path": "SIBLING"
+                  },
                   "name": "sibling"
                 },
                 {
+                  "proto3_": {
+                    "path": "FAMILY"
+                  },
                   "name": "family"
                 },
                 {
+                  "proto3_": {
+                    "path": "FRIEND"
+                  },
                   "name": "friend"
                 },
                 {
+                  "proto3_": {
+                    "path": "COLLEAGUE"
+                  },
                   "name": "colleague"
                 }
               ]
@@ -61,18 +109,30 @@
           ],
           "entities": [
             {
+              "proto3_": {
+                "path": "address_book.proto:/Root"
+              },
               "name": "address_book_root",
               "fields": [
                 {
+                  "proto3_": {
+                    "path": "name"
+                  },
                   "name": "name",
                   "info": "A name for the address book",
                   "type": "string"
                 },
                 {
+                  "proto3_": {
+                    "path": "last_updated"
+                  },
                   "name": "last_updated",
                   "type": "timestamp"
                 },
                 {
+                  "proto3_": {
+                    "path": "advanced_settings"
+                  },
                   "name": "settings",
                   "type": "composition",
                   "composition": {
@@ -82,6 +142,9 @@
                   "multiplicity": "optional"
                 },
                 {
+                  "proto3_": {
+                    "path": "person"
+                  },
                   "name": "person",
                   "type": "composition",
                   "composition": {
@@ -102,19 +165,32 @@
               ]
             },
             {
+              "proto3_": {
+                "path": "address_book.proto:/Settings"
+              },
               "name": "address_book_settings",
               "fields": [
                 {
+                  "proto3_": {
+                    "path": "address_book.proto:/Root/last_name_first"
+                  },
                   "name": "last_name_first",
+                  "info": "TODO: Revisit again for proto3 mapping",
                   "type": "boolean",
                   "multiplicity": "optional"
                 },
                 {
+                  "proto3_": {
+                    "path": "encrypt_hero_name"
+                  },
                   "name": "encrypt_hero_name",
                   "type": "boolean",
                   "multiplicity": "optional"
                 },
                 {
+                  "proto3_": {
+                    "path": "card_colors"
+                  },
                   "name": "card_colors",
                   "type": "enumeration",
                   "enumeration": {
@@ -126,37 +202,61 @@
               ]
             },
             {
+              "proto3_": {
+                "path": "person.proto:/Person"
+              },
               "name": "address_book_person",
               "fields": [
                 {
+                  "proto3_": {
+                    "path": "id"
+                  },
                   "name": "id",
                   "type": "uuid",
                   "is_key": true
                 },
                 {
+                  "proto3_": {
+                    "path": "first_name"
+                  },
                   "name": "first_name",
                   "type": "string"
                 },
                 {
+                  "proto3_": {
+                    "path": "last_name"
+                  },
                   "name": "last_name",
                   "type": "string"
                 },
                 {
+                  "proto3_": {
+                    "path": "hero_name"
+                  },
                   "name": "hero_name",
                   "type": "string",
                   "multiplicity": "optional"
                 },
                 {
+                  "proto3_": {
+                    "path": "email"
+                  },
                   "name": "email",
                   "type": "string",
                   "multiplicity": "list"
                 },
                 {
+                  "proto3_": {
+                    "path": "picture"
+                  },
                   "name": "picture",
                   "type": "blob",
                   "multiplicity": "optional"
                 },
                 {
+                  "proto3_": {
+                    "path": "relation"
+                  },
                   "name": "relation",
                   "type": "composition",
                   "composition": {
@@ -188,14 +288,23 @@
               ]
             },
             {
+              "proto3_": {
+                "path": "person.proto:/Relation"
+              },
               "name": "address_book_relation",
               "fields": [
                 {
+                  "proto3_": {
+                    "path": "id"
+                  },
                   "name": "id",
                   "type": "uuid",
                   "is_key": true
                 },
                 {
+                  "proto3_": {
+                    "path": "relationship"
+                  },
                   "name": "relationship",
                   "type": "enumeration",
                   "enumeration": {
