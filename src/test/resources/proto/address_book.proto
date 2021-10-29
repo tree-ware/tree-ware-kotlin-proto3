@@ -1,0 +1,39 @@
+syntax = "proto3";
+import "proto/person.proto";
+
+message Settings {
+  // last_name_first is in Root message
+  bool encrypt_hero_name = 1;
+  enum Color {
+    UNKNOWN = 0;
+    VIOLET = 1;
+    INDIGO = 2;
+    BLUE = 3;
+    GREEN = 4;
+    YELLOW = 5;
+    ORANGE = 6;
+    RED = 7;
+  }
+  repeated Color card_colors = 2;
+}
+
+//message City {
+//  string name = 1;
+//  string state = 2;
+//  string country = 3;
+//}
+//
+//message CityInfo {
+//  City city = 1;
+//  string info = 2;
+//  repeated CityInfo related_city_info = 3;
+//}
+
+message Root {
+  string name = 1;
+  string last_updated = 2;
+  bool last_name_first = 3;
+  Settings advanced_settings = 4;
+  Person person = 5;
+  //  CityInfo city_info = 6;
+}

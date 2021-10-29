@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+enum Relationship {
+  UNKNOWN = 0;
+  PARENT = 1;
+  CHILD = 2;
+  SPOUSE = 3;
+  SIBLING = 4;
+  FAMILY = 5;
+  FRIEND = 6;
+  COLLEAGUE = 7;
+}
+
+message Relation {
+  string id = 1;
+  Relationship relationship = 2;
+  //  Person person = 3;
+}
+
+message Person {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string hero_name = 4;
+  string email = 5;
+  bytes picture = 6;
+  repeated Relation relation = 7;
+  //  string password = 8;
+  //  string previous_password = 9;
+  //  string main_secret = 10;
+  //  repeated string other_secrets = 11;
+}
