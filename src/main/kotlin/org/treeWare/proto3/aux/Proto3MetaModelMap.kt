@@ -1,3 +1,7 @@
 package org.treeWare.proto3.aux
 
-data class Proto3MetaModelMap(val path: String)
+class Proto3MetaModelMap(val path: String) {
+    var validated: Proto3MetaModelMapValidated? = null
+}
+
+data class Proto3MetaModelMapValidated(val path: String)
