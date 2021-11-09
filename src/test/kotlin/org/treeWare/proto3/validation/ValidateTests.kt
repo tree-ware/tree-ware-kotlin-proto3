@@ -1,0 +1,52 @@
+package org.treeWare.proto3.validation
+
+import org.treeWare.metaModel.newProto3AddressBookMetaModel
+import org.treeWare.metaModel.traversal.AbstractLeader1Follower0MetaModelVisitor
+import org.treeWare.metaModel.traversal.metaModelForEach
+import org.treeWare.model.core.*
+import org.treeWare.model.readFile
+import org.treeWare.model.traversal.TraversalAction
+import org.treeWare.proto3.aux.getProto3MetaModelMap
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+
+class ValidateTests {
+    @Test
+    fun `Proto3 mapping must be valid`() {
+        val metaModel = newProto3AddressBookMetaModel(null, null)
+        val errors = validate(metaModel)
+        assertTrue(errors.isEmpty())
+
+        val proto3Mappings = getProto3Mappings(metaModel)
+        val expected = readFile("validation/address_book_absolute_paths.txt")
+        val actual = proto3Mappings.joinToString("\n")
+        assertEquals(expected, actual)
+    }
+}
+
+private fun getProto3Mappings(mainMeta: MainModel): List<String> {
+    val visitor = GetProto3MappingsVisitor()
+    metaModelForEach(mainMeta, visitor)
+    return visitor.mappings
+}
+
+private class GetProto3MappingsVisitor :
+    AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+    val mappings = mutableListOf<String>()
+    private var entityPath = ""
+
+    override fun visitEntityMeta(leaderEntityMeta1: EntityModel): TraversalAction {
+        val aux = getProto3MetaModelMap(leaderEntityMeta1)
+        entityPath = aux?.path ?: ""
+        return TraversalAction.CONTINUE
+    }
+
+    override fun visitFieldMeta(leaderFieldMeta1: EntityModel): TraversalAction {
+        val aux = getProto3MetaModelMap(leaderFieldMeta1)
+        val fullName = leaderFieldMeta1.getAux<Resolved>(RESOLVED_AUX)?.fullName
+        aux?.validated?.also { mappings.add("$fullName -> ${it.path}") }
+        return TraversalAction.CONTINUE
+    }
+}

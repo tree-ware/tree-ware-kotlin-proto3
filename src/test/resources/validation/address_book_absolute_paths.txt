@@ -1,0 +1,16 @@
+/address_book.main/address_book_root/name -> address_book.proto:/Root/name
+/address_book.main/address_book_root/last_updated -> address_book.proto:/Root/last_updated
+/address_book.main/address_book_root/settings -> address_book.proto:/Root/advanced_settings
+/address_book.main/address_book_root/person -> address_book.proto:/Root/person
+/address_book.main/address_book_settings/last_name_first -> address_book.proto:/Root/last_name_first
+/address_book.main/address_book_settings/encrypt_hero_name -> address_book.proto:/Settings/encrypt_hero_name
+/address_book.main/address_book_settings/card_colors -> address_book.proto:/Settings/card_colors
+/address_book.main/address_book_person/id -> person.proto:/Person/id
+/address_book.main/address_book_person/first_name -> person.proto:/Person/first_name
+/address_book.main/address_book_person/last_name -> person.proto:/Person/last_name
+/address_book.main/address_book_person/hero_name -> person.proto:/Person/hero_name
+/address_book.main/address_book_person/email -> person.proto:/Person/email
+/address_book.main/address_book_person/picture -> person.proto:/Person/picture
+/address_book.main/address_book_person/relation -> person.proto:/Person/relation
+/address_book.main/address_book_relation/id -> person.proto:/Relation/id
+/address_book.main/address_book_relation/relationship -> person.proto:/Relation/relationship
