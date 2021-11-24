@@ -1,5 +1,10 @@
 package org.treeWare.proto3.validation
 
+import com.google.protobuf.DescriptorProtos
+import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.google.protobuf.Descriptors
+import com.google.protobuf.Descriptors.DescriptorValidationException
+import com.google.protobuf.InvalidProtocolBufferException
 import org.treeWare.metaModel.traversal.AbstractLeader1Follower0MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
@@ -9,15 +14,18 @@ import org.treeWare.proto3.aux.Proto3MetaModelMapValidated
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 
 
-fun validate(mainMeta: MainModel): List<String> {
-    val visitor = ValidationVisitor()
+fun validate(mainMeta: MainModel, protoDescriptorFile: String): List<String> {
+    val visitor = ValidationVisitor(protoDescriptorFile)
     metaModelForEach(mainMeta, visitor)
     return visitor.errors
 }
 
-private class ValidationVisitor : AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+private class ValidationVisitor(
+    protoDescriptorFile: String
+) : AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     val errors = mutableListOf<String>()
     private var entityPath = ""
+    private val fileDescriptorSet = parseProto("build/generated/source/proto/test/descriptor_set.desc")
 
     override fun visitEntityMeta(leaderEntityMeta1: EntityModel): TraversalAction {
         val aux = getProto3MetaModelMap(leaderEntityMeta1)
@@ -33,5 +41,13 @@ private class ValidationVisitor : AbstractLeader1Follower0MetaModelVisitor<Trave
             aux.validated = Proto3MetaModelMapValidated(absolutePath)
         }
         return TraversalAction.CONTINUE
+    }
+
+    //Helpers
+
+    @Throws(InvalidProtocolBufferException::class, DescriptorValidationException::class)
+    private fun parseProto(proto: String): Descriptors.FileDescriptor {
+        val descriptorProto = FileDescriptorProto.parseFrom(proto.toByteArray())
+        return Descriptors.FileDescriptor.buildFrom(descriptorProto, null)
     }
 }
