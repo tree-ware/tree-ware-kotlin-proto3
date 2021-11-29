@@ -1,6 +1,5 @@
 package org.treeWare.proto3.validation
 
-import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.Descriptors
 import com.google.protobuf.Descriptors.DescriptorValidationException
@@ -25,7 +24,7 @@ private class ValidationVisitor(
 ) : AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     val errors = mutableListOf<String>()
     private var entityPath = ""
-    private val fileDescriptorSet = parseProto("build/generated/source/proto/test/descriptor_set.desc")
+//    private val fileDescriptorSet = parseProto(protoDescriptorFile)
 
     override fun visitEntityMeta(leaderEntityMeta1: EntityModel): TraversalAction {
         val aux = getProto3MetaModelMap(leaderEntityMeta1)

@@ -9,15 +9,14 @@ import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 
 class ValidateTests {
     @Test
     fun `Proto3 mapping must be valid`() {
-        val metaModel = newProto3AddressBookMetaModel(null, null)
-        val errors = validate(metaModel)
-        assertTrue(errors.isEmpty())
+        val metaModel = newProto3AddressBookMetaModel(
+            null, null, "build/generated/source/proto/test/descriptor_set.desc"
+        )
 
         val proto3Mappings = getProto3Mappings(metaModel)
         val expected = readFile("validation/address_book_absolute_paths.txt")

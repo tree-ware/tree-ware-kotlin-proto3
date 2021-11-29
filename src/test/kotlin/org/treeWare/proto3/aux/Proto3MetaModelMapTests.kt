@@ -12,14 +12,15 @@ private val metaMetaModel = newMainMetaMetaModel()
 class Proto3MetaModelMapTests {
     @Test
     fun `Proto3 meta-model JSON codec round trip must be lossless`() {
+        val proto3MetaModelAuxPlugin = Proto3MetaModelAuxPlugin("build/generated/source/proto/test/descriptor_set.desc")
         PROTO3_ADDRESS_BOOK_META_MODEL_FILES.forEach { file ->
             testRoundTrip(
                 file,
                 multiAuxEncoder = MultiAuxEncoder(
-                    PROTO3_META_MODEL_MAP_CODEC_AUX_NAME to Proto3MetaModelMapEncoder()
+                    proto3MetaModelAuxPlugin.auxName to proto3MetaModelAuxPlugin.auxEncoder
                 ),
                 multiAuxDecodingStateMachineFactory = MultiAuxDecodingStateMachineFactory(
-                    PROTO3_META_MODEL_MAP_CODEC_AUX_NAME to { Proto3MetaModelMapStateMachine(it) }
+                    proto3MetaModelAuxPlugin.auxName to proto3MetaModelAuxPlugin.auxDecodingStateMachineFactory
                 ),
                 metaModel = metaMetaModel
             )
