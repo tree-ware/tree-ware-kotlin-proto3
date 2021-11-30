@@ -34,6 +34,6 @@ message Root {
   string last_updated = 2;
   bool last_name_first = 3;
   Settings advanced_settings = 4;
-  //  Person person = 5;
+  Person person = 5;
   //  CityInfo city_info = 6;
 }
