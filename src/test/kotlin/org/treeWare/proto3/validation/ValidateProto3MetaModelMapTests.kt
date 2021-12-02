@@ -52,7 +52,7 @@ private class GetProto3MappingsVisitor :
     override fun visitFieldMeta(leaderFieldMeta1: EntityModel): TraversalAction {
         val aux = getProto3MetaModelMap(leaderFieldMeta1)
         val fullName = leaderFieldMeta1.getAux<Resolved>(RESOLVED_AUX)?.fullName
-        aux?.validated?.also { mappings.add("$fullName -> ${it.path}") }
+        aux?.validated?.also { mappings.add("$fullName -> ${it.path} = ${it.fieldNumber}") }
         return TraversalAction.CONTINUE
     }
 }
