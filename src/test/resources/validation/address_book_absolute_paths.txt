@@ -1,16 +1,16 @@
-/address_book.main/address_book_root/name -> address_book.proto:/Root/name
-/address_book.main/address_book_root/last_updated -> address_book.proto:/Root/last_updated
-/address_book.main/address_book_root/settings -> address_book.proto:/Root/advanced_settings
-/address_book.main/address_book_root/person -> address_book.proto:/Root/person
-/address_book.main/address_book_settings/last_name_first -> address_book.proto:/Root/last_name_first
-/address_book.main/address_book_settings/encrypt_hero_name -> address_book.proto:/Settings/encrypt_hero_name
-/address_book.main/address_book_settings/card_colors -> address_book.proto:/Settings/card_colors
-/address_book.main/address_book_person/id -> person.proto:/Person/id
-/address_book.main/address_book_person/first_name -> person.proto:/Person/first_name
-/address_book.main/address_book_person/last_name -> person.proto:/Person/last_name
-/address_book.main/address_book_person/hero_name -> person.proto:/Person/hero_name
-/address_book.main/address_book_person/email -> person.proto:/Person/email
-/address_book.main/address_book_person/picture -> person.proto:/Person/picture
-/address_book.main/address_book_person/relation -> person.proto:/Person/relation
-/address_book.main/address_book_relation/id -> person.proto:/Relation/id
-/address_book.main/address_book_relation/relationship -> person.proto:/Relation/relationship
+/address_book.main/address_book_root/name -> address_book.proto:/Root/name = 1
+/address_book.main/address_book_root/last_updated -> address_book.proto:/Root/last_updated = 2
+/address_book.main/address_book_root/settings -> address_book.proto:/Root/advanced_settings = 4
+/address_book.main/address_book_root/person -> address_book.proto:/Root/person = 5
+/address_book.main/address_book_settings/last_name_first -> address_book.proto:/Root/last_name_first = 3
+/address_book.main/address_book_settings/encrypt_hero_name -> address_book.proto:/Settings/encrypt_hero_name = 1
+/address_book.main/address_book_settings/card_colors -> address_book.proto:/Settings/card_colors = 2
+/address_book.main/address_book_person/id -> person.proto:/Person/id = 1
+/address_book.main/address_book_person/first_name -> person.proto:/Person/first_name = 2
+/address_book.main/address_book_person/last_name -> person.proto:/Person/last_name = 3
+/address_book.main/address_book_person/hero_name -> person.proto:/Person/hero_name = 4
+/address_book.main/address_book_person/email -> person.proto:/Person/email = 5
+/address_book.main/address_book_person/picture -> person.proto:/Person/picture = 6
+/address_book.main/address_book_person/relation -> person.proto:/Person/relation = 7
+/address_book.main/address_book_relation/id -> person.proto:/Relation/id = 1
+/address_book.main/address_book_relation/relationship -> person.proto:/Relation/relationship = 2
