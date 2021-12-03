@@ -1,3 +1,17 @@
+/address_book.main/address_book_color/violet -> address_book.proto:/Settings/Color/VIOLET = 1
+/address_book.main/address_book_color/indigo -> address_book.proto:/Settings/Color/INDIGO = 2
+/address_book.main/address_book_color/blue -> address_book.proto:/Settings/Color/BLUE = 3
+/address_book.main/address_book_color/green -> address_book.proto:/Settings/Color/GREEN = 4
+/address_book.main/address_book_color/yellow -> address_book.proto:/Settings/Color/YELLOW = 5
+/address_book.main/address_book_color/orange -> address_book.proto:/Settings/Color/ORANGE = 6
+/address_book.main/address_book_color/red -> address_book.proto:/Settings/Color/RED = 7
+/address_book.main/address_book_relationship/parent -> person.proto:/Relationship/PARENT = 1
+/address_book.main/address_book_relationship/child -> person.proto:/Relationship/CHILD = 2
+/address_book.main/address_book_relationship/spouse -> person.proto:/Relationship/SPOUSE = 3
+/address_book.main/address_book_relationship/sibling -> person.proto:/Relationship/SIBLING = 4
+/address_book.main/address_book_relationship/family -> person.proto:/Relationship/FAMILY = 5
+/address_book.main/address_book_relationship/friend -> person.proto:/Relationship/FRIEND = 6
+/address_book.main/address_book_relationship/colleague -> person.proto:/Relationship/COLLEAGUE = 7
 /address_book.main/address_book_root/name -> address_book.proto:/Root/name = 1
 /address_book.main/address_book_root/last_updated -> address_book.proto:/Root/last_updated = 2
 /address_book.main/address_book_root/settings -> address_book.proto:/Root/advanced_settings = 4
