@@ -31,9 +31,9 @@ message Settings {
 
 message Root {
   string name = 1;
-  string last_updated = 2;
+  uint64 last_updated = 2;
   bool last_name_first = 3;
   Settings advanced_settings = 4;
-  Person person = 5;
-  //  CityInfo city_info = 6;
+  repeated Person person = 5;
+  //  repeated CityInfo city_info = 6;
 }

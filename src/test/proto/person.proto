@@ -22,7 +22,7 @@ message Person {
   string first_name = 2;
   string last_name = 3;
   string hero_name = 4;
-  string email = 5;
+  repeated string email = 5;
   bytes picture = 6;
   repeated Relation relation = 7;
   //  string password = 8;
