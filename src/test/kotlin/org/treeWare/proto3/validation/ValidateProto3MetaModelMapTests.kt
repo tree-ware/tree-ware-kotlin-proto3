@@ -41,11 +41,11 @@ private fun getProto3Mappings(mainMeta: MainModel): List<String> {
 private class GetProto3MappingsVisitor :
     AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     val mappings = mutableListOf<String>()
-    private var entityPath = ""
 
-    override fun visitEntityMeta(leaderEntityMeta1: EntityModel): TraversalAction {
-        val aux = getProto3MetaModelMap(leaderEntityMeta1)
-        entityPath = aux?.path ?: ""
+    override fun visitEnumerationValueMeta(leaderEnumerationValueMeta1: EntityModel): TraversalAction {
+        val aux = getProto3MetaModelMap(leaderEnumerationValueMeta1)
+        val fullName = leaderEnumerationValueMeta1.getAux<Resolved>(RESOLVED_AUX)?.fullName
+        aux?.validated?.also { mappings.add("$fullName -> ${it.path} = ${it.fieldNumber}") }
         return TraversalAction.CONTINUE
     }
 
