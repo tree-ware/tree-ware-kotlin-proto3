@@ -35,7 +35,7 @@ private class SerializeVisitor(
         // NOTE: even if a message is empty, its tag and length (0) need to be included.
         val parentFieldMeta = leaderEntity1.parent.meta
         val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
-            ?: throw IllegalStateException()
+            ?: return TraversalAction.CONTINUE
         writeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED)
         writeLength(length)
         return TraversalAction.CONTINUE
@@ -54,7 +54,7 @@ private class SerializeVisitor(
         if (length <= 0) return TraversalAction.CONTINUE
         if (isPackedType(leaderField1)) {
             val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                ?: throw IllegalStateException()
+                ?: return TraversalAction.CONTINUE
             val wireType = getWireType(leaderField1)
             writeTag(fieldNumber, wireType)
         }
@@ -66,7 +66,7 @@ private class SerializeVisitor(
         if (length <= 0) return TraversalAction.CONTINUE
         if (isPackedType(leaderField1)) {
             val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                ?: throw IllegalStateException()
+                ?: return TraversalAction.CONTINUE
             writeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED)
             writeLength(length)
         }
@@ -120,7 +120,7 @@ private class SerializeVisitor(
                 if (string.isNotEmpty()) {
                     // Non-packable type, so include tag.
                     val fieldNumber = getProto3MetaModelMap(parentMeta)?.validated?.fieldNumber
-                        ?: throw IllegalStateException()
+                        ?: return TraversalAction.CONTINUE
                     output.writeString(fieldNumber, string)
                 }
             }
@@ -129,7 +129,7 @@ private class SerializeVisitor(
                 if (bytes.isNotEmpty()) {
                     // Non-packable type, so include tag.
                     val fieldNumber = getProto3MetaModelMap(parentMeta)?.validated?.fieldNumber
-                        ?: throw IllegalStateException()
+                        ?: return TraversalAction.CONTINUE
                     output.writeByteArray(fieldNumber, bytes)
                 }
             }
