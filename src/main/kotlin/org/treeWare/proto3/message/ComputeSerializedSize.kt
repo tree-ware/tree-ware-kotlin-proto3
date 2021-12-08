@@ -52,7 +52,7 @@ private class ComputeSerializedSizeVisitor :
         // Entities are represented as messages, and they are not packed, so include tag size.
         val parentFieldMeta = leaderEntity1.parent.meta
         val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
-            ?: throw IllegalStateException()
+            ?: return TraversalAction.CONTINUE
         val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
         return visitElement(tagSize)
     }
@@ -139,7 +139,7 @@ private class ComputeSerializedSizeVisitor :
                 if (string.isEmpty()) 0 else {
                     // Non-packable type, so include tag size.
                     val fieldNumber = getProto3MetaModelMap(parentMeta)?.validated?.fieldNumber
-                        ?: throw IllegalStateException()
+                        ?: return TraversalAction.CONTINUE
                     val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
                     tagSize + CodedOutputStream.computeStringSizeNoTag(string)
                 }
@@ -149,7 +149,7 @@ private class ComputeSerializedSizeVisitor :
                 if (bytes.isEmpty()) 0 else {
                     // Non-packable type, so include tag size.
                     val fieldNumber = getProto3MetaModelMap(parentMeta)?.validated?.fieldNumber
-                        ?: throw IllegalStateException()
+                        ?: return TraversalAction.CONTINUE
                     val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
                     tagSize + CodedOutputStream.computeByteArraySizeNoTag(bytes)
                 }
