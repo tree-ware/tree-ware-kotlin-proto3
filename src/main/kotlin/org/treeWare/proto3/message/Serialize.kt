@@ -5,7 +5,7 @@ import com.google.protobuf.WireFormat
 import org.treeWare.metaModel.FieldType
 import org.treeWare.metaModel.getFieldTypeMeta
 import org.treeWare.model.core.*
-import org.treeWare.model.traversal.AbstractLeader1Follower0ModelVisitor
+import org.treeWare.model.traversal.AbstractLeader1ModelVisitor
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.model.traversal.forEach
 import org.treeWare.proto3.aux.getProto3MessageInfo
@@ -17,7 +17,7 @@ internal fun serialize(mainModel: MainModel, output: CodedOutputStream) {
 
 private class SerializeVisitor(
     private val output: CodedOutputStream
-) : AbstractLeader1Follower0ModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+) : AbstractLeader1ModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     private fun writeTag(fieldNumber: Int, wireType: Int) {
         val tag = (fieldNumber shl WIRE_TYPE_BITS) or wireType
         output.writeUInt32NoTag(tag)
@@ -27,7 +27,7 @@ private class SerializeVisitor(
         output.writeUInt32NoTag(length)
     }
 
-    // Leader1Follower0ModelVisitor methods
+    // Leader1ModelVisitor methods
 
     override fun visit(leaderEntity1: EntityModel): TraversalAction {
         // Entities are represented as messages, and they are not packed, so include tags.

@@ -4,7 +4,7 @@ import com.google.protobuf.CodedOutputStream
 import org.treeWare.metaModel.FieldType
 import org.treeWare.metaModel.getFieldTypeMeta
 import org.treeWare.model.core.*
-import org.treeWare.model.traversal.AbstractLeader1Follower0ModelVisitor
+import org.treeWare.model.traversal.AbstractLeader1ModelVisitor
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.model.traversal.forEach
 import org.treeWare.proto3.aux.Proto3MessageInfo
@@ -16,7 +16,7 @@ internal fun computeSerializedSize(mainModel: MainModel) {
 }
 
 private class ComputeSerializedSizeVisitor :
-    AbstractLeader1Follower0ModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+    AbstractLeader1ModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     private val sizeStack = ArrayDeque<Int>()
 
     private fun visitElement(tagSize: Int = 0): TraversalAction {
@@ -40,7 +40,7 @@ private class ComputeSerializedSizeVisitor :
         }
     }
 
-    // Leader1Follower0ModelVisitor methods
+    // Leader1ModelVisitor methods
 
     override fun visit(leaderMain1: MainModel): TraversalAction = visitElement()
     override fun leave(leaderMain1: MainModel) = leaveElement(leaderMain1)
