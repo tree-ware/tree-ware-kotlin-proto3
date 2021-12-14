@@ -2,7 +2,7 @@ package org.treeWare.proto3.validation
 
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
-import org.treeWare.metaModel.traversal.AbstractLeader1Follower0MetaModelVisitor
+import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.*
 import org.treeWare.model.traversal.TraversalAction
@@ -19,7 +19,7 @@ fun validateProto3MetaModelMap(mainMeta: MainModel, protoDescriptorFile: String)
 
 private class ValidateProto3MetaModelMapVisitor(
     protoDescriptorFile: String
-) : AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+) : AbstractLeader1MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     val errors = mutableListOf<String>()
     private var parentPath = ""
     private val parsedProtoDescriptorMap: Map<String, Int> = parseProto(protoDescriptorFile)

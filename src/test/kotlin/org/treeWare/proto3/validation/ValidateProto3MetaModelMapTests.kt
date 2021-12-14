@@ -1,7 +1,7 @@
 package org.treeWare.proto3.validation
 
 import org.treeWare.metaModel.newProto3AddressBookMetaModel
-import org.treeWare.metaModel.traversal.AbstractLeader1Follower0MetaModelVisitor
+import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.*
 import org.treeWare.model.readFile
@@ -39,7 +39,7 @@ private fun getProto3Mappings(mainMeta: MainModel): List<String> {
 }
 
 private class GetProto3MappingsVisitor :
-    AbstractLeader1Follower0MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+    AbstractLeader1MetaModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     val mappings = mutableListOf<String>()
 
     override fun visitEnumerationValueMeta(leaderEnumerationValueMeta1: EntityModel): TraversalAction {
