@@ -113,7 +113,7 @@ private class ComputeSerializedSizeVisitor :
         val size: Int = when (val fieldType = getFieldTypeMeta(parentMeta)) {
             FieldType.BOOLEAN -> {
                 val boolean = value as Boolean
-                if (!boolean) 0 else CodedOutputStream.computeBoolSizeNoTag(boolean)
+                if (!boolean) 0 else CodedOutputStream.computeBoolSizeNoTag(true)
             }
             FieldType.BYTE,
             FieldType.SHORT,
