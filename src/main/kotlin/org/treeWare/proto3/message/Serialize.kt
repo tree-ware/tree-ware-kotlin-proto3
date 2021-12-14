@@ -94,7 +94,7 @@ private class SerializeVisitor(
         when (val fieldType = getFieldTypeMeta(parentMeta)) {
             FieldType.BOOLEAN -> {
                 val boolean = value as Boolean
-                if (boolean) output.writeBoolNoTag(boolean)
+                if (boolean) output.writeBoolNoTag(true)
             }
             FieldType.BYTE,
             FieldType.SHORT,
