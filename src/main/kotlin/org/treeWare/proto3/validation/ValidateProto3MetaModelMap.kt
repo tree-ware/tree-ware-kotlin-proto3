@@ -4,12 +4,13 @@ import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
-import org.treeWare.model.core.*
+import org.treeWare.model.core.EntityModel
+import org.treeWare.model.core.MainModel
+import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.Proto3MetaModelMapValidated
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import java.io.FileInputStream
-
 
 fun validateProto3MetaModelMap(mainMeta: MainModel, protoDescriptorFile: String): List<String> {
     val visitor = ValidateProto3MetaModelMapVisitor(protoDescriptorFile)
@@ -51,14 +52,14 @@ private class ValidateProto3MetaModelMapVisitor(
         if (aux?.path != null) {
             val absolutePath = if (aux.path.contains(".proto:/")) aux.path else "$parentPath/${aux.path}"
             if (validatedAbsolutePaths.contains(absolutePath)) {
-                val fullName = childMeta.getAux<Resolved>(RESOLVED_AUX)?.fullName
+                val fullName = getMetaModelResolved(childMeta)?.fullName
                 errors.add("$fullName has duplicate mapping $absolutePath")
             } else if (parsedProtoDescriptorMap.containsKey(absolutePath)) {
                 validatedAbsolutePaths.add(absolutePath)
                 val protoFieldNumber = parsedProtoDescriptorMap[absolutePath]
                 aux.validated = protoFieldNumber?.let { Proto3MetaModelMapValidated(absolutePath, it) }
             } else {
-                val fullName = childMeta.getAux<Resolved>(RESOLVED_AUX)?.fullName
+                val fullName = getMetaModelResolved(childMeta)?.fullName
                 errors.add("$fullName mapping $absolutePath does not exist")
             }
         }
