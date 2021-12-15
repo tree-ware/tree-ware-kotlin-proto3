@@ -29,7 +29,7 @@ private class SerializeVisitor(
 
     // Leader1ModelVisitor methods
 
-    override fun visit(leaderEntity1: EntityModel): TraversalAction {
+    override fun visitEntity(leaderEntity1: EntityModel): TraversalAction {
         // Entities are represented as messages, and they are not packed, so include tags.
         val length = getProto3MessageInfo(leaderEntity1)?.serializedSize ?: return TraversalAction.CONTINUE
         // NOTE: even if a message is empty, its tag and length (0) need to be included.
@@ -49,7 +49,7 @@ private class SerializeVisitor(
     // models need to include their tags each time they are repeated. See NOTE
     // further below for more details.
 
-    override fun visit(leaderField1: SingleFieldModel): TraversalAction {
+    override fun visitSingleField(leaderField1: SingleFieldModel): TraversalAction {
         val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.CONTINUE
         if (length <= 0) return TraversalAction.CONTINUE
         if (isPackedType(leaderField1)) {
@@ -61,7 +61,7 @@ private class SerializeVisitor(
         return TraversalAction.CONTINUE
     }
 
-    override fun visit(leaderField1: ListFieldModel): TraversalAction {
+    override fun visitListField(leaderField1: ListFieldModel): TraversalAction {
         val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.CONTINUE
         if (length <= 0) return TraversalAction.CONTINUE
         if (isPackedType(leaderField1)) {
@@ -88,7 +88,7 @@ private class SerializeVisitor(
     // are not packable always include their tag sizes; their parents (field-
     // models) do not include their tag sizes.
 
-    override fun visit(leaderValue1: PrimitiveModel): TraversalAction {
+    override fun visitPrimitive(leaderValue1: PrimitiveModel): TraversalAction {
         val parentMeta = leaderValue1.parent.meta ?: return TraversalAction.CONTINUE
         val value = leaderValue1.value ?: TraversalAction.CONTINUE
         when (val fieldType = getFieldTypeMeta(parentMeta)) {
@@ -142,7 +142,7 @@ private class SerializeVisitor(
         return TraversalAction.CONTINUE
     }
 
-    override fun visit(leaderValue1: EnumerationModel): TraversalAction {
+    override fun visitEnumeration(leaderValue1: EnumerationModel): TraversalAction {
         // Enumeration values are packed, so don't include tag.
         val enumNumber =
             getProto3MetaModelMap(leaderValue1.meta)?.validated?.fieldNumber ?: return TraversalAction.CONTINUE

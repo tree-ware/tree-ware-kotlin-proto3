@@ -42,13 +42,13 @@ private class ComputeSerializedSizeVisitor :
 
     // Leader1ModelVisitor methods
 
-    override fun visit(leaderMain1: MainModel): TraversalAction = visitElement()
-    override fun leave(leaderMain1: MainModel) = leaveElement(leaderMain1)
+    override fun visitMain(leaderMain1: MainModel): TraversalAction = visitElement()
+    override fun leaveMain(leaderMain1: MainModel) = leaveElement(leaderMain1)
 
-    override fun visit(leaderRoot1: RootModel): TraversalAction = visitElement()
-    override fun leave(leaderRoot1: RootModel) = leaveElement(leaderRoot1)
+    override fun visitRoot(leaderRoot1: RootModel): TraversalAction = visitElement()
+    override fun leaveRoot(leaderRoot1: RootModel) = leaveElement(leaderRoot1)
 
-    override fun visit(leaderEntity1: EntityModel): TraversalAction {
+    override fun visitEntity(leaderEntity1: EntityModel): TraversalAction {
         // Entities are represented as messages, and they are not packed, so include tag size.
         val parentFieldMeta = leaderEntity1.parent.meta
         val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
@@ -57,7 +57,7 @@ private class ComputeSerializedSizeVisitor :
         return visitElement(tagSize)
     }
 
-    override fun leave(leaderEntity1: EntityModel) = leaveElement(leaderEntity1, true)
+    override fun leaveEntity(leaderEntity1: EntityModel) = leaveElement(leaderEntity1, true)
 
     // Fields
 
@@ -67,7 +67,7 @@ private class ComputeSerializedSizeVisitor :
     // models need to include their tag each time they are repeated. See NOTE
     // further below for more details.
 
-    override fun visit(leaderField1: SingleFieldModel): TraversalAction {
+    override fun visitSingleField(leaderField1: SingleFieldModel): TraversalAction {
         val tagSize = if (isPackedType(leaderField1)) {
             val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
                 ?: return TraversalAction.CONTINUE
@@ -76,9 +76,9 @@ private class ComputeSerializedSizeVisitor :
         return visitElement(tagSize)
     }
 
-    override fun leave(leaderField1: SingleFieldModel) = leaveElement(leaderField1)
+    override fun leaveSingleField(leaderField1: SingleFieldModel) = leaveElement(leaderField1)
 
-    override fun visit(leaderField1: ListFieldModel): TraversalAction {
+    override fun visitListField(leaderField1: ListFieldModel): TraversalAction {
         val tagSize =
             if (leaderField1.values.isEmpty()) 0
             else if (isPackedType(leaderField1)) {
@@ -89,7 +89,7 @@ private class ComputeSerializedSizeVisitor :
         return visitElement(tagSize)
     }
 
-    override fun leave(leaderField1: ListFieldModel) =
+    override fun leaveListField(leaderField1: ListFieldModel) =
         leaveElement(leaderField1, leaderField1.values.isNotEmpty() && isPackedType(leaderField1))
 
     // SetFieldModel overrides are not needed because currently set-fields
@@ -107,7 +107,7 @@ private class ComputeSerializedSizeVisitor :
     // are not packable always include their tag sizes; their parents (field-
     // models) do not include their tag sizes.
 
-    override fun visit(leaderValue1: PrimitiveModel): TraversalAction {
+    override fun visitPrimitive(leaderValue1: PrimitiveModel): TraversalAction {
         val parentMeta = leaderValue1.parent.meta ?: return TraversalAction.CONTINUE
         val value = leaderValue1.value ?: TraversalAction.CONTINUE
         val size: Int = when (val fieldType = getFieldTypeMeta(parentMeta)) {
@@ -164,7 +164,7 @@ private class ComputeSerializedSizeVisitor :
         return TraversalAction.CONTINUE
     }
 
-    override fun visit(leaderValue1: EnumerationModel): TraversalAction {
+    override fun visitEnumeration(leaderValue1: EnumerationModel): TraversalAction {
         // Enumeration values are packed, so don't include tag size.
         val enumNumber =
             getProto3MetaModelMap(leaderValue1.meta)?.validated?.fieldNumber ?: return TraversalAction.CONTINUE
