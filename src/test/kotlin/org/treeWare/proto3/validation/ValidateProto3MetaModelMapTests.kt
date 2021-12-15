@@ -3,14 +3,15 @@ package org.treeWare.proto3.validation
 import org.treeWare.metaModel.newProto3AddressBookMetaModel
 import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
-import org.treeWare.model.core.*
+import org.treeWare.model.core.EntityModel
+import org.treeWare.model.core.MainModel
+import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.readFile
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
-
 
 class ValidateProto3MetaModelMapTests {
     @Test
@@ -44,14 +45,14 @@ private class GetProto3MappingsVisitor :
 
     override fun visitEnumerationValueMeta(leaderEnumerationValueMeta1: EntityModel): TraversalAction {
         val aux = getProto3MetaModelMap(leaderEnumerationValueMeta1)
-        val fullName = leaderEnumerationValueMeta1.getAux<Resolved>(RESOLVED_AUX)?.fullName
+        val fullName = getMetaModelResolved(leaderEnumerationValueMeta1)?.fullName
         aux?.validated?.also { mappings.add("$fullName -> ${it.path} = ${it.fieldNumber}") }
         return TraversalAction.CONTINUE
     }
 
     override fun visitFieldMeta(leaderFieldMeta1: EntityModel): TraversalAction {
         val aux = getProto3MetaModelMap(leaderFieldMeta1)
-        val fullName = leaderFieldMeta1.getAux<Resolved>(RESOLVED_AUX)?.fullName
+        val fullName = getMetaModelResolved(leaderFieldMeta1)?.fullName
         aux?.validated?.also { mappings.add("$fullName -> ${it.path} = ${it.fieldNumber}") }
         return TraversalAction.CONTINUE
     }
