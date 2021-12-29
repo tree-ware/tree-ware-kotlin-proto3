@@ -18,11 +18,9 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize roots`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "last_updated": "1587147731"
-            |     }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "last_updated": "1587147731"
             |   }
             | }
         """.trimMargin()
@@ -49,12 +47,10 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize single compositions`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "settings": {
-            |         "encrypt_hero_name": true
-            |       }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "settings": {
+            |       "encrypt_hero_name": true
             |     }
             |   }
             | }
@@ -83,22 +79,20 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize enumeration lists`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "settings": {
-            |         "card_colors": [
-            |           {
-            |             "value": "orange"
-            |           },
-            |           {
-            |             "value": "green"
-            |           },
-            |           {
-            |             "value": "blue"
-            |           }
-            |         ]
-            |       }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "settings": {
+            |       "card_colors": [
+            |         {
+            |           "value": "orange"
+            |         },
+            |         {
+            |           "value": "green"
+            |         },
+            |         {
+            |           "value": "blue"
+            |         }
+            |       ]
             |     }
             |   }
             | }
@@ -129,23 +123,21 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize composition sets`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "person": [
-            |         {
-            |           "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
-            |           "first_name": "Clark",
-            |           "last_name": "Kent",
-            |           "hero_name": "Superman"
-            |         },
-            |         {
-            |           "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
-            |           "first_name": "Lois",
-            |           "last_name": "Lane"
-            |         }
-            |       ]
-            |     }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "person": [
+            |       {
+            |         "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
+            |         "first_name": "Clark",
+            |         "last_name": "Kent",
+            |         "hero_name": "Superman"
+            |       },
+            |       {
+            |         "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
+            |         "first_name": "Lois",
+            |         "last_name": "Lane"
+            |       }
+            |     ]
             |   }
             | }
         """.trimMargin()
@@ -180,31 +172,29 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize string lists`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "person": [
-            |         {
-            |           "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
-            |           "email": [
-            |             {
-            |               "value": "clark.kent@dailyplanet.com"
-            |             },
-            |             {
-            |               "value": "superman@dc.com"
-            |             }
-            |           ]
-            |         },
-            |         {
-            |           "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
-            |           "email": [
-            |             {
-            |               "value": "lois.lane@dailyplanet.com"
-            |             }
-            |           ]
-            |         }
-            |       ]
-            |     }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "person": [
+            |       {
+            |         "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
+            |         "email": [
+            |           {
+            |             "value": "clark.kent@dailyplanet.com"
+            |           },
+            |           {
+            |             "value": "superman@dc.com"
+            |           }
+            |         ]
+            |       },
+            |       {
+            |         "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
+            |         "email": [
+            |           {
+            |             "value": "lois.lane@dailyplanet.com"
+            |           }
+            |         ]
+            |       }
+            |     ]
             |   }
             | }
         """.trimMargin()
@@ -237,20 +227,18 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize blobs`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "person": [
-            |         {
-            |           "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
-            |           "picture": "UGljdHVyZSBvZiBDbGFyayBLZW50"
-            |         },
-            |         {
-            |           "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
-            |           "picture": "UGljdHVyZSBvZiBMb2lzIExhbmU="
-            |         }
-            |       ]
-            |     }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "person": [
+            |       {
+            |         "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
+            |         "picture": "UGljdHVyZSBvZiBDbGFyayBLZW50"
+            |       },
+            |       {
+            |         "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
+            |         "picture": "UGljdHVyZSBvZiBMb2lzIExhbmU="
+            |       }
+            |     ]
             |   }
             | }
         """.trimMargin()
@@ -282,11 +270,9 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must serialize empty entities`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "settings": {
-            |       }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "settings": {
             |     }
             |   }
             | }
@@ -314,19 +300,17 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must not serialize empty lists`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "settings": {
-            |         "card_colors": []
-            |       },
-            |       "person": [
-            |         {
-            |           "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
-            |           "email": []
-            |         }
-            |       ]
-            |     }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "settings": {
+            |       "card_colors": []
+            |     },
+            |     "person": [
+            |       {
+            |         "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
+            |         "email": []
+            |       }
+            |     ]
             |   }
             | }
         """.trimMargin()
@@ -357,11 +341,9 @@ class Proto3MessageAdapterTests {
     fun `Proto3 message adapter must not serialize empty sets`() {
         val modelJson = """
             | {
-            |   "data": {
-            |     "address_book": {
-            |       "name": "Super Heroes",
-            |       "person": []
-            |     }
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "person": []
             |   }
             | }
         """.trimMargin()
