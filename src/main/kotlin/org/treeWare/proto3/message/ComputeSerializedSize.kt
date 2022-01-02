@@ -45,19 +45,19 @@ private class ComputeSerializedSizeVisitor :
     override fun visitMain(leaderMain1: MainModel): TraversalAction = visitElement()
     override fun leaveMain(leaderMain1: MainModel) = leaveElement(leaderMain1)
 
-    override fun visitRoot(leaderRoot1: RootModel): TraversalAction = visitElement()
-    override fun leaveRoot(leaderRoot1: RootModel) = leaveElement(leaderRoot1)
-
     override fun visitEntity(leaderEntity1: EntityModel): TraversalAction {
-        // Entities are represented as messages, and they are not packed, so include tag size.
-        val parentFieldMeta = leaderEntity1.parent.meta
-        val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
-            ?: return TraversalAction.CONTINUE
-        val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
-        return visitElement(tagSize)
+        if (isRootEntity(leaderEntity1)) return visitElement()
+        else {
+            // Entities are represented as messages, and they are not packed, so include tag size.
+            val parentFieldMeta = leaderEntity1.parent.meta
+            val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
+                ?: return TraversalAction.CONTINUE
+            val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
+            return visitElement(tagSize)
+        }
     }
 
-    override fun leaveEntity(leaderEntity1: EntityModel) = leaveElement(leaderEntity1, true)
+    override fun leaveEntity(leaderEntity1: EntityModel) = leaveElement(leaderEntity1, !isRootEntity(leaderEntity1))
 
     // Fields
 
