@@ -11,12 +11,18 @@ const val WIRE_TYPE_BITS = 3
 
 fun getWireType(fieldModel: FieldModel): Int = when (val fieldType = getFieldTypeMeta(fieldModel.meta)) {
     FieldType.BOOLEAN,
-    FieldType.BYTE,
-    FieldType.SHORT,
-    FieldType.INT,
-    FieldType.LONG -> WireFormat.WIRETYPE_VARINT
+    FieldType.UINT8,
+    FieldType.UINT16,
+    FieldType.UINT32,
+    FieldType.UINT64,
+    FieldType.INT8,
+    FieldType.INT16,
+    FieldType.INT32,
+    FieldType.INT64 -> WireFormat.WIRETYPE_VARINT
     FieldType.FLOAT -> WireFormat.WIRETYPE_FIXED32
     FieldType.DOUBLE -> WireFormat.WIRETYPE_FIXED64
+    FieldType.BIG_INTEGER,
+    FieldType.BIG_DECIMAL,
     FieldType.STRING,
     FieldType.UUID,
     FieldType.BLOB -> WireFormat.WIRETYPE_LENGTH_DELIMITED
@@ -28,16 +34,22 @@ fun getWireType(fieldModel: FieldModel): Int = when (val fieldType = getFieldTyp
 
 fun isPackedType(fieldModel: FieldModel): Boolean = when (val fieldType = getFieldTypeMeta(fieldModel.meta)) {
     FieldType.BOOLEAN,
-    FieldType.BYTE,
-    FieldType.SHORT,
-    FieldType.INT,
-    FieldType.LONG,
+    FieldType.UINT8,
+    FieldType.UINT16,
+    FieldType.UINT32,
+    FieldType.UINT64,
+    FieldType.INT8,
+    FieldType.INT16,
+    FieldType.INT32,
+    FieldType.INT64,
     FieldType.FLOAT,
     FieldType.DOUBLE -> true
+    FieldType.BIG_INTEGER,
+    FieldType.BIG_DECIMAL -> false
+    FieldType.TIMESTAMP -> true
     FieldType.STRING,
     FieldType.UUID,
     FieldType.BLOB -> false
-    FieldType.TIMESTAMP,
     FieldType.ENUMERATION -> true
     FieldType.COMPOSITION -> false
     else -> throw IllegalStateException("Illegal field type: $fieldType")

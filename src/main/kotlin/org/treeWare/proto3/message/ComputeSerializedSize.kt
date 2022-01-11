@@ -115,13 +115,23 @@ private class ComputeSerializedSizeVisitor :
                 val boolean = value as Boolean
                 if (!boolean) 0 else CodedOutputStream.computeBoolSizeNoTag(true)
             }
-            FieldType.BYTE,
-            FieldType.SHORT,
-            FieldType.INT -> {
+            FieldType.UINT8,
+            FieldType.UINT16,
+            FieldType.UINT32 -> {
+                val int = (value as UInt).toInt()
+                if (int == 0) 0 else CodedOutputStream.computeUInt32SizeNoTag(int)
+            }
+            FieldType.UINT64 -> {
+                val long = (value as ULong).toLong()
+                if (long == 0L) 0 else CodedOutputStream.computeUInt64SizeNoTag(long)
+            }
+            FieldType.INT8,
+            FieldType.INT16,
+            FieldType.INT32 -> {
                 val int = value as Int
                 if (int == 0) 0 else CodedOutputStream.computeInt32SizeNoTag(int)
             }
-            FieldType.LONG -> {
+            FieldType.INT64 -> {
                 val long = value as Long
                 if (long == 0L) 0 else CodedOutputStream.computeInt64SizeNoTag(long)
             }
@@ -132,6 +142,21 @@ private class ComputeSerializedSizeVisitor :
             FieldType.DOUBLE -> {
                 val double = value as Double
                 if (double == 0.0) 0 else CodedOutputStream.computeDoubleSizeNoTag(double)
+            }
+            FieldType.BIG_INTEGER,
+            FieldType.BIG_DECIMAL -> {
+                val string = value.toString()
+                if (string.isEmpty()) 0 else {
+                    // Non-packable type, so include tag size.
+                    val fieldNumber = getProto3MetaModelMap(parentMeta)?.validated?.fieldNumber
+                        ?: return TraversalAction.CONTINUE
+                    val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
+                    tagSize + CodedOutputStream.computeStringSizeNoTag(string)
+                }
+            }
+            FieldType.TIMESTAMP -> {
+                val long = value as Long
+                if (long == 0L) 0 else CodedOutputStream.computeUInt64SizeNoTag(long)
             }
             FieldType.STRING,
             FieldType.UUID -> {
@@ -153,10 +178,6 @@ private class ComputeSerializedSizeVisitor :
                     val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
                     tagSize + CodedOutputStream.computeByteArraySizeNoTag(bytes)
                 }
-            }
-            FieldType.TIMESTAMP -> {
-                val long = value as Long
-                if (long == 0L) 0 else CodedOutputStream.computeUInt64SizeNoTag(long)
             }
             else -> throw IllegalStateException("Invalid primitive field type: $fieldType")
         }
