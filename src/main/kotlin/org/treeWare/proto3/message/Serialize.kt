@@ -96,13 +96,23 @@ private class SerializeVisitor(
                 val boolean = value as Boolean
                 if (boolean) output.writeBoolNoTag(true)
             }
-            FieldType.BYTE,
-            FieldType.SHORT,
-            FieldType.INT -> {
+            FieldType.UINT8,
+            FieldType.UINT16,
+            FieldType.UINT32 -> {
+                val int = (value as UInt).toInt()
+                if (int != 0) output.writeUInt32NoTag(int)
+            }
+            FieldType.UINT64 -> {
+                val long = (value as ULong).toLong()
+                if (long != 0L) output.writeUInt64NoTag(long)
+            }
+            FieldType.INT8,
+            FieldType.INT16,
+            FieldType.INT32 -> {
                 val int = value as Int
                 if (int != 0) output.writeInt32NoTag(int)
             }
-            FieldType.LONG -> {
+            FieldType.INT64 -> {
                 val long = value as Long
                 if (long != 0L) output.writeInt64NoTag(long)
             }
@@ -113,6 +123,20 @@ private class SerializeVisitor(
             FieldType.DOUBLE -> {
                 val double = value as Double
                 if (double != 0.0) output.writeDoubleNoTag(double)
+            }
+            FieldType.BIG_INTEGER,
+            FieldType.BIG_DECIMAL -> {
+                val string = value.toString()
+                if (string.isNotEmpty()) {
+                    // Non-packable type, so include tag.
+                    val fieldNumber = getProto3MetaModelMap(parentMeta)?.validated?.fieldNumber
+                        ?: return TraversalAction.CONTINUE
+                    output.writeString(fieldNumber, string)
+                }
+            }
+            FieldType.TIMESTAMP -> {
+                val long = value as Long
+                if (long != 0L) output.writeUInt64NoTag(long)
             }
             FieldType.STRING,
             FieldType.UUID -> {
@@ -132,10 +156,6 @@ private class SerializeVisitor(
                         ?: return TraversalAction.CONTINUE
                     output.writeByteArray(fieldNumber, bytes)
                 }
-            }
-            FieldType.TIMESTAMP -> {
-                val long = value as Long
-                if (long != 0L) output.writeUInt64NoTag(long)
             }
             else -> throw IllegalStateException("Invalid primitive field type: $fieldType")
         }
