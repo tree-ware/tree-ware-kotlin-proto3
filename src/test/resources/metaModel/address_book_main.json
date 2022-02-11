@@ -13,45 +13,59 @@
             "values": [
               {
                 "proto3_": {
+                  "path": "WHITE"
+                },
+                "name": "white",
+                "number": 0
+              },
+              {
+                "proto3_": {
                   "path": "VIOLET"
                 },
-                "name": "violet"
+                "name": "violet",
+                "number": 1
               },
               {
                 "proto3_": {
                   "path": "INDIGO"
                 },
-                "name": "indigo"
+                "name": "indigo",
+                "number": 2
               },
               {
                 "proto3_": {
                   "path": "BLUE"
                 },
-                "name": "blue"
+                "name": "blue",
+                "number": 3
               },
               {
                 "proto3_": {
                   "path": "GREEN"
                 },
-                "name": "green"
+                "name": "green",
+                "number": 4
               },
               {
                 "proto3_": {
                   "path": "YELLOW"
                 },
-                "name": "yellow"
+                "name": "yellow",
+                "number": 5
               },
               {
                 "proto3_": {
                   "path": "ORANGE"
                 },
-                "name": "orange"
+                "name": "orange",
+                "number": 6
               },
               {
                 "proto3_": {
                   "path": "RED"
                 },
-                "name": "red"
+                "name": "red",
+                "number": 7
               }
             ]
           },
@@ -63,45 +77,59 @@
             "values": [
               {
                 "proto3_": {
+                  "path": "UNKNOWN"
+                },
+                "name": "unknown",
+                "number": 0
+              },
+              {
+                "proto3_": {
                   "path": "PARENT"
                 },
-                "name": "parent"
+                "name": "parent",
+                "number": 1
               },
               {
                 "proto3_": {
                   "path": "CHILD"
                 },
-                "name": "child"
+                "name": "child",
+                "number": 2
               },
               {
                 "proto3_": {
                   "path": "SPOUSE"
                 },
-                "name": "spouse"
+                "name": "spouse",
+                "number": 3
               },
               {
                 "proto3_": {
                   "path": "SIBLING"
                 },
-                "name": "sibling"
+                "name": "sibling",
+                "number": 4
               },
               {
                 "proto3_": {
                   "path": "FAMILY"
                 },
-                "name": "family"
+                "name": "family",
+                "number": 5
               },
               {
                 "proto3_": {
                   "path": "FRIEND"
                 },
-                "name": "friend"
+                "name": "friend",
+                "number": 6
               },
               {
                 "proto3_": {
                   "path": "COLLEAGUE"
                 },
-                "name": "colleague"
+                "name": "colleague",
+                "number": 7
               }
             ]
           }
@@ -118,6 +146,7 @@
                   "path": "name"
                 },
                 "name": "name",
+                "number": 1,
                 "info": "A name for the address book",
                 "type": "string"
               },
@@ -126,6 +155,7 @@
                   "path": "last_updated"
                 },
                 "name": "last_updated",
+                "number": 2,
                 "type": "timestamp"
               },
               {
@@ -133,6 +163,7 @@
                   "path": "advanced_settings"
                 },
                 "name": "settings",
+                "number": 4,
                 "type": "composition",
                 "composition": {
                   "name": "address_book_settings",
@@ -145,6 +176,7 @@
                   "path": "person"
                 },
                 "name": "person",
+                "number": 5,
                 "type": "composition",
                 "composition": {
                   "name": "address_book_person",
@@ -154,6 +186,7 @@
               },
               {
                 "name": "city_info",
+                "number": 6,
                 "type": "composition",
                 "composition": {
                   "name": "address_book_city_info",
@@ -171,10 +204,10 @@
             "fields": [
               {
                 "proto3_": {
-                  "path": "address_book.proto:/Root/last_name_first"
+                  "path": "last_name_first"
                 },
                 "name": "last_name_first",
-                "info": "TODO: Revisit again for proto3 mapping",
+                "number": 1,
                 "type": "boolean",
                 "multiplicity": "optional"
               },
@@ -183,6 +216,7 @@
                   "path": "encrypt_hero_name"
                 },
                 "name": "encrypt_hero_name",
+                "number": 2,
                 "type": "boolean",
                 "multiplicity": "optional"
               },
@@ -191,6 +225,7 @@
                   "path": "card_colors"
                 },
                 "name": "card_colors",
+                "number": 3,
                 "type": "enumeration",
                 "enumeration": {
                   "name": "address_book_color",
@@ -211,6 +246,7 @@
                   "path": "id"
                 },
                 "name": "id",
+                "number": 1,
                 "type": "uuid",
                 "is_key": true
               },
@@ -219,6 +255,7 @@
                   "path": "first_name"
                 },
                 "name": "first_name",
+                "number": 2,
                 "type": "string"
               },
               {
@@ -226,6 +263,7 @@
                   "path": "last_name"
                 },
                 "name": "last_name",
+                "number": 3,
                 "type": "string"
               },
               {
@@ -233,6 +271,7 @@
                   "path": "hero_name"
                 },
                 "name": "hero_name",
+                "number": 4,
                 "type": "string",
                 "multiplicity": "optional"
               },
@@ -241,6 +280,7 @@
                   "path": "email"
                 },
                 "name": "email",
+                "number": 5,
                 "type": "string",
                 "multiplicity": "list"
               },
@@ -249,6 +289,7 @@
                   "path": "picture"
                 },
                 "name": "picture",
+                "number": 6,
                 "type": "blob",
                 "multiplicity": "optional"
               },
@@ -257,6 +298,7 @@
                   "path": "relation"
                 },
                 "name": "relation",
+                "number": 7,
                 "type": "composition",
                 "composition": {
                   "name": "address_book_relation",
@@ -266,21 +308,25 @@
               },
               {
                 "name": "password",
+                "number": 8,
                 "type": "password1way",
                 "multiplicity": "optional"
               },
               {
                 "name": "previous_passwords",
+                "number": 9,
                 "type": "password1way",
                 "multiplicity": "list"
               },
               {
                 "name": "main_secret",
+                "number": 10,
                 "type": "password2way",
                 "multiplicity": "optional"
               },
               {
                 "name": "other_secrets",
+                "number": 11,
                 "type": "password2way",
                 "multiplicity": "list"
               }
@@ -297,6 +343,7 @@
                   "path": "id"
                 },
                 "name": "id",
+                "number": 1,
                 "type": "uuid",
                 "is_key": true
               },
@@ -305,6 +352,7 @@
                   "path": "relationship"
                 },
                 "name": "relationship",
+                "number": 2,
                 "type": "enumeration",
                 "enumeration": {
                   "name": "address_book_relationship",
@@ -313,6 +361,7 @@
               },
               {
                 "name": "person",
+                "number": 3,
                 "type": "association",
                 "association": [
                   {

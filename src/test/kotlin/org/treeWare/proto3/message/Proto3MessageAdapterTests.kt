@@ -12,7 +12,7 @@ private fun ByteArray.toMultiLineString() = this.joinToString("\n")
 class Proto3MessageAdapterTests {
     private val metaModel = newProto3AddressBookMetaModel(
         null, null, "build/generated/source/proto/test/descriptor_set.desc"
-    )
+    ).metaModel ?: throw IllegalStateException("Meta-model has validation errors")
 
     @Test
     fun `Proto3 message adapter must serialize roots`() {
