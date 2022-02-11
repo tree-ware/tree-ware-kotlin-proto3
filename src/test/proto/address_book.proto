@@ -2,10 +2,10 @@ syntax = "proto3";
 import "person.proto";
 
 message Settings {
-  // last_name_first is in Root message
-  bool encrypt_hero_name = 1;
+  bool last_name_first = 1;
+  bool encrypt_hero_name = 2;
   enum Color {
-    UNKNOWN = 0;
+    WHITE = 0;
     VIOLET = 1;
     INDIGO = 2;
     BLUE = 3;
@@ -14,7 +14,7 @@ message Settings {
     ORANGE = 6;
     RED = 7;
   }
-  repeated Color card_colors = 2;
+  repeated Color card_colors = 3;
 }
 
 //message City {
@@ -32,7 +32,6 @@ message Settings {
 message Root {
   string name = 1;
   uint64 last_updated = 2;
-  bool last_name_first = 3;
   Settings advanced_settings = 4;
   repeated Person person = 5;
   //  repeated CityInfo city_info = 6;

@@ -2,6 +2,7 @@ package org.treeWare.proto3.validation
 
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
+import org.treeWare.metaModel.getMetaNumber
 import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
@@ -51,16 +52,22 @@ private class ValidateProto3MetaModelMapVisitor(
         // Check if field contains mapping to proto3 path
         if (aux?.path != null) {
             val absolutePath = if (aux.path.contains(".proto:/")) aux.path else "$parentPath/${aux.path}"
+            val metaNumber = getMetaNumber(childMeta)
             if (validatedAbsolutePaths.contains(absolutePath)) {
                 val fullName = getMetaModelResolved(childMeta)?.fullName
                 errors.add("$fullName has duplicate mapping $absolutePath")
-            } else if (parsedProtoDescriptorMap.containsKey(absolutePath)) {
-                validatedAbsolutePaths.add(absolutePath)
-                val protoFieldNumber = parsedProtoDescriptorMap[absolutePath]
-                aux.validated = protoFieldNumber?.let { Proto3MetaModelMapValidated(absolutePath, it) }
-            } else {
+            } else if (!parsedProtoDescriptorMap.containsKey(absolutePath)) {
                 val fullName = getMetaModelResolved(childMeta)?.fullName
                 errors.add("$fullName mapping $absolutePath does not exist")
+            } else {
+                val protoFieldNumber = parsedProtoDescriptorMap[absolutePath]
+                if (protoFieldNumber?.toUInt() != metaNumber) {
+                    val fullName = getMetaModelResolved(childMeta)?.fullName
+                    errors.add("$fullName number $metaNumber does not match $absolutePath number $protoFieldNumber")
+                } else {
+                    validatedAbsolutePaths.add(absolutePath)
+                    aux.validated = protoFieldNumber?.let { Proto3MetaModelMapValidated(absolutePath, it) }
+                }
             }
         }
         return TraversalAction.CONTINUE
