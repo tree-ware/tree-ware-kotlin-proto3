@@ -12,7 +12,7 @@ import org.treeWare.proto3.aux.getProto3MetaModelMap
 import org.treeWare.proto3.aux.setProto3MessageInfo
 
 internal fun computeSerializedSize(mainModel: MainModel) {
-    forEach(mainModel, ComputeSerializedSizeVisitor())
+    forEach(mainModel, ComputeSerializedSizeVisitor(), true)
 }
 
 private class ComputeSerializedSizeVisitor :
