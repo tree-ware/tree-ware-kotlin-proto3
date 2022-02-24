@@ -12,7 +12,7 @@ import org.treeWare.proto3.aux.getProto3MessageInfo
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 
 internal fun serialize(mainModel: MainModel, output: CodedOutputStream) {
-    forEach(mainModel, SerializeVisitor(output))
+    forEach(mainModel, SerializeVisitor(output), true)
 }
 
 private class SerializeVisitor(
