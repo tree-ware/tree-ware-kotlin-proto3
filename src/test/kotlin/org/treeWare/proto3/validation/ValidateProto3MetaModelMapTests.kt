@@ -8,7 +8,7 @@ import org.treeWare.model.core.MainModel
 import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.readFile
 import org.treeWare.model.traversal.TraversalAction
-import org.treeWare.proto3.aux.Proto3MetaModelAuxPlugin
+import org.treeWare.proto3.aux.Proto3MetaModelMapAuxPlugin
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -223,7 +223,7 @@ private fun newProto3TestMetaModel(testPackageJson: String): ValidatedMetaModel 
     false,
     null,
     null,
-    listOf(Proto3MetaModelAuxPlugin(PROTO_DESCRIPTOR_FILE)),
+    listOf(Proto3MetaModelMapAuxPlugin(PROTO_DESCRIPTOR_FILE)),
     true
 )
 
