@@ -109,7 +109,7 @@ private class ComputeSerializedSizeVisitor :
 
     override fun visitPrimitive(leaderValue1: PrimitiveModel): TraversalAction {
         val parentMeta = leaderValue1.parent.meta ?: return TraversalAction.CONTINUE
-        val value = leaderValue1.value ?: TraversalAction.CONTINUE
+        val value = leaderValue1.value
         val size: Int = when (val fieldType = getFieldTypeMeta(parentMeta)) {
             FieldType.BOOLEAN -> {
                 val boolean = value as Boolean

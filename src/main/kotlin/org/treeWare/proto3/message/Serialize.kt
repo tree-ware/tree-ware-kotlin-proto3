@@ -90,7 +90,7 @@ private class SerializeVisitor(
 
     override fun visitPrimitive(leaderValue1: PrimitiveModel): TraversalAction {
         val parentMeta = leaderValue1.parent.meta ?: return TraversalAction.CONTINUE
-        val value = leaderValue1.value ?: TraversalAction.CONTINUE
+        val value = leaderValue1.value
         when (val fieldType = getFieldTypeMeta(parentMeta)) {
             FieldType.BOOLEAN -> {
                 val boolean = value as Boolean
