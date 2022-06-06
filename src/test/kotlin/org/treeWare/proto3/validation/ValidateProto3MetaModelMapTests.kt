@@ -14,8 +14,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-private const val PROTO_DESCRIPTOR_FILE = "build/generated/source/proto/test/descriptor_set.desc"
-
 class ValidateProto3MetaModelMapTests {
     @Test
     fun `Proto3 mapping validation must fail for invalid enumeration mapping`() {
@@ -208,10 +206,7 @@ class ValidateProto3MetaModelMapTests {
 
     @Test
     fun `Proto3 mapping validation must pass for valid mappings`() {
-        val metaModel = newProto3AddressBookMetaModel(null, null, PROTO_DESCRIPTOR_FILE).metaModel
-            ?: throw IllegalStateException("Meta-model has validation errors")
-
-        val proto3Mappings = getProto3Mappings(metaModel)
+        val proto3Mappings = getProto3Mappings(proto3AddressBookMetaModel)
         val expected = readFile("validation/address_book_absolute_paths.txt")
         val actual = proto3Mappings.joinToString("\n")
         assertEquals(expected, actual)

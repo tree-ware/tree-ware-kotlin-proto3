@@ -2,7 +2,7 @@ package org.treeWare.proto3.message
 
 import AddressBook
 import com.google.protobuf.ByteString
-import org.treeWare.metaModel.newProto3AddressBookMetaModel
+import org.treeWare.metaModel.proto3AddressBookMetaModel
 import org.treeWare.model.getMainModelFromJsonString
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -10,10 +10,6 @@ import kotlin.test.assertEquals
 private fun ByteArray.toMultiLineString() = this.joinToString("\n")
 
 class Proto3MessageAdapterTests {
-    private val metaModel = newProto3AddressBookMetaModel(
-        null, null, "build/generated/source/proto/test/descriptor_set.desc"
-    ).metaModel ?: throw IllegalStateException("Meta-model has validation errors")
-
     @Test
     fun `Proto3 message adapter must serialize roots`() {
         val modelJson = """
@@ -24,7 +20,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -55,7 +51,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -97,7 +93,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -141,7 +137,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -198,7 +194,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -242,7 +238,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -277,7 +273,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -314,7 +310,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()
@@ -347,7 +343,7 @@ class Proto3MessageAdapterTests {
             |   }
             | }
         """.trimMargin()
-        val model = getMainModelFromJsonString(metaModel, modelJson)
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
 
         // Build the expected message using generated code.
         val root = AddressBook.Root.newBuilder()

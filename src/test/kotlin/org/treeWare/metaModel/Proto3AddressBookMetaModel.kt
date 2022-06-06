@@ -19,3 +19,8 @@ fun newProto3AddressBookMetaModel(hasher: Hasher?, cipher: Cipher?, protoDescrip
         listOf(Proto3MetaModelMapAuxPlugin(protoDescriptorFile)),
         true
     )
+
+const val PROTO_DESCRIPTOR_FILE = "build/generated/source/proto/test/descriptor_set.desc"
+
+val proto3AddressBookMetaModel = newProto3AddressBookMetaModel(null, null, PROTO_DESCRIPTOR_FILE).metaModel
+    ?: throw IllegalStateException("Meta-model has validation errors")
