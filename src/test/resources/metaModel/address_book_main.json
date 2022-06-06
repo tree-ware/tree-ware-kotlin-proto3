@@ -166,7 +166,7 @@
                 "number": 4,
                 "type": "composition",
                 "composition": {
-                  "name": "address_book_settings",
+                  "entity": "address_book_settings",
                   "package": "address_book.main"
                 },
                 "multiplicity": "optional"
@@ -179,7 +179,7 @@
                 "number": 5,
                 "type": "composition",
                 "composition": {
-                  "name": "address_book_person",
+                  "entity": "address_book_person",
                   "package": "address_book.main"
                 },
                 "multiplicity": "set"
@@ -189,7 +189,7 @@
                 "number": 6,
                 "type": "composition",
                 "composition": {
-                  "name": "address_book_city_info",
+                  "entity": "address_book_city_info",
                   "package": "address_book.city"
                 },
                 "multiplicity": "set"
@@ -301,7 +301,7 @@
                 "number": 7,
                 "type": "composition",
                 "composition": {
-                  "name": "address_book_relation",
+                  "entity": "address_book_relation",
                   "package": "address_book.main"
                 },
                 "multiplicity": "set"
@@ -364,7 +364,7 @@
                 "number": 3,
                 "type": "association",
                 "association": {
-                  "name": "address_book_person",
+                  "entity": "address_book_person",
                   "package": "address_book.main"
                 }
               }

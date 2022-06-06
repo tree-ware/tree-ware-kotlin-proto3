@@ -39,7 +39,7 @@
                 "number": 1,
                 "type": "composition",
                 "composition": {
-                  "name": "address_book_city",
+                  "entity": "address_book_city",
                   "package": "address_book.city"
                 },
                 "is_key": true
@@ -55,7 +55,7 @@
                 "number": 3,
                 "type": "association",
                 "association": {
-                  "name": "address_book_city_info",
+                  "entity": "address_book_city_info",
                   "package": "address_book.city"
                 },
                 "multiplicity": "list"
