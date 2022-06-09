@@ -10,7 +10,7 @@ version = "1.0-SNAPSHOT"
 val protoVersion = "3.19.1"
 
 plugins {
-    id("org.jetbrains.kotlin.jvm").version("1.6.10")
+    id("org.jetbrains.kotlin.jvm").version("1.7.0")
     id("idea")
     id("java-library")
     id("java-test-fixtures")
