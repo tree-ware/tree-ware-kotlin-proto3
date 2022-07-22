@@ -6,9 +6,20 @@
         "info": "Schema for storing city information",
         "entities": [
           {
+            "proto3_": {
+              "path": "something",
+              "options": [
+                "(custom_options.ctx) = cluster"
+              ]
+            },
             "name": "address_book_city",
             "fields": [
               {
+                "proto3_": {
+                  "options": [
+                    "Test single inline option"
+                  ]
+                },
                 "name": "name",
                 "number": 1,
                 "info": "City name",
@@ -32,6 +43,12 @@
             ]
           },
           {
+            "proto3_": {
+              "options": [
+                "Test Entity Double option 1",
+                "Test Entity Double option 2"
+              ]
+            },
             "name": "address_book_city_info",
             "fields": [
               {
@@ -52,6 +69,13 @@
               },
               {
                 "name": "related_city_info",
+                "proto3_": {
+                  "options": [
+                    "inline 1",
+                    "inline 2",
+                    "inline 3"
+                  ]
+                },
                 "number": 3,
                 "type": "association",
                 "association": {

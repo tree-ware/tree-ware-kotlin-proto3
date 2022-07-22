@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":tree-ware-kotlin-core"))
     implementation("com.google.protobuf:protobuf-kotlin:$protoVersion")
     implementation(kotlin("stdlib"))
+    implementation("org.ainslec:picocog:1.0.7")
 
     testImplementation(project(":tree-ware-kotlin-core:test-fixtures"))
     testImplementation(kotlin("test"))

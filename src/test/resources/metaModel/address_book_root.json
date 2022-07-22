@@ -1,4 +1,15 @@
 {
+  "meta_model__proto3_": {
+    "imports": [
+      "custom_options.proto"
+    ],
+    "key_field_options": [
+      "(custom_options.key) = true"
+    ],
+    "required_field_options": [
+      "(custom_options.required) = true"
+    ]
+  },
   "meta_model": {
     "root": {
       "name": "address_book",
