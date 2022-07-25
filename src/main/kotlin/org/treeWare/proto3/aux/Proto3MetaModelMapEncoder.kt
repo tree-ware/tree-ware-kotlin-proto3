@@ -19,6 +19,9 @@ class Proto3MetaModelMapEncoder : AuxEncoder {
             metaModelMap.keyFieldOptions?.also {
                 encodeList(PROTO3_META_MODEL_MAP_CODEC_KEY_FIELD_OPTIONS, it, wireFormatEncoder)
             }
+            metaModelMap.requiredFieldOptions?.also {
+                encodeList(PROTO3_META_MODEL_MAP_CODEC_REQUIRED_FIELD_OPTIONS, it, wireFormatEncoder)
+            }
             wireFormatEncoder.encodeObjectEnd()
         }
     }
