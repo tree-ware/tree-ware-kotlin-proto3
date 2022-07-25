@@ -68,7 +68,6 @@
                 "type": "string"
               },
               {
-                "name": "related_city_info",
                 "proto3_": {
                   "options": [
                     "inline 1",
@@ -76,6 +75,7 @@
                     "inline 3"
                   ]
                 },
+                "name": "related_city_info",
                 "number": 3,
                 "type": "association",
                 "association": {
