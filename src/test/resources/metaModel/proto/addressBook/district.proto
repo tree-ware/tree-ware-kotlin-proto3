@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package address_book.district;
+
+import "custom_message_options.proto";
+import "custom_field_options.proto";
+
+enum TestEnum {
+   TEST_ENUM_VALUE_1 = 0;
+   TEST_ENUM_VALUE_2 = 1;
+   TEST_ENUM_VALUE_3 = 2;
+}
+
+message AddressBookDistrict {
+   string name = 1 [(custom_field_options.key) = true];
+   string city = 2 [(custom_field_options.key) = true];
+}
+
+message AddressBookDistrictInfo {
+   AddressBookDistrict district = 1 [(custom_field_options.key) = true];
+   string info = 2 [(custom_field_options.required) = true];
+}

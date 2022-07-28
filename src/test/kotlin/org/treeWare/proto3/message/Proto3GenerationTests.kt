@@ -2,21 +2,21 @@ package org.treeWare.proto3.message
 
 import org.junit.jupiter.api.Test
 import org.treeWare.metaModel.proto3AddressBookMetaModel
-import java.io.File
-import java.io.StringWriter
+import kotlin.test.assertTrue
 
 class Proto3GenerationTests {
 
     @Test
-    fun `Proto3 encoder must create a proto file from a metaModel`() {
-        val writer = StringWriter()
-        val directoryName = "generated/proto"
-        val directory = File(directoryName)
-        if (!directory.exists()) directory.mkdirs()
-        encodeProto3(proto3AddressBookMetaModel, directoryName)
-        val protoString = writer.toString()
-        assert(protoString == "")
+    fun `Proto3 encoder must create proto files from metaModel`() {
+        val writeDirectoryName = "generated/proto"
+        encodeProto3(proto3AddressBookMetaModel, writeDirectoryName)
+        val writePath = "generated/proto/addressBook"
+        val testPath = "src/test/resources/metaModel/proto/addressBook"
+        assertTrue(directoriesEqual(writePath, testPath))
     }
 
-
+    private fun directoriesEqual(filePath1: String, filePath2: String): Boolean {
+        val returnValue = Runtime.getRuntime().exec("diff $filePath1 $filePath2").waitFor()
+        return returnValue == 0
+    }
 }

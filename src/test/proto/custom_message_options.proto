@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package custom_message_options;
+
+option go_package = "pb-go/custom_message_options";
+import "google/protobuf/descriptor.proto";
+
+
+enum Scope {
+  organization = 0;
+  site = 1;
+}
+
+
+extend google.protobuf.MessageOptions {
+  Scope scope = 50001;
+  bool entityOption = 50006;
+}
+
