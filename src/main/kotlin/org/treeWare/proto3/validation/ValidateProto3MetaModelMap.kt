@@ -48,11 +48,12 @@ private class ValidateProto3MetaModelMapVisitor(
     }
 
     private fun visitChildMeta(childMeta: EntityModel): TraversalAction {
-        val aux = getProto3MetaModelMap(childMeta)
-        // Check if field contains mapping to proto3 path
-        if (aux?.path != null) {
+        val aux = getProto3MetaModelMap(childMeta) ?: return TraversalAction.CONTINUE
+        val metaNumber = getMetaNumber(childMeta)?.toInt()
+            ?: throw IllegalStateException("Meta-model number is missing")
+        if (aux.path != null) {
+            // Field is mapped to an existing proto.
             val absolutePath = if (aux.path.contains(".proto:/")) aux.path else "$parentPath/${aux.path}"
-            val metaNumber = getMetaNumber(childMeta)
             if (validatedAbsolutePaths.contains(absolutePath)) {
                 val fullName = getMetaModelResolved(childMeta)?.fullName
                 errors.add("$fullName has duplicate mapping $absolutePath")
@@ -61,14 +62,17 @@ private class ValidateProto3MetaModelMapVisitor(
                 errors.add("$fullName mapping $absolutePath does not exist")
             } else {
                 val protoFieldNumber = parsedProtoDescriptorMap[absolutePath]
-                if (protoFieldNumber?.toUInt() != metaNumber) {
+                if (protoFieldNumber != metaNumber) {
                     val fullName = getMetaModelResolved(childMeta)?.fullName
                     errors.add("$fullName number $metaNumber does not match $absolutePath number $protoFieldNumber")
                 } else {
                     validatedAbsolutePaths.add(absolutePath)
-                    aux.validated = protoFieldNumber?.let { Proto3MetaModelMapValidated(absolutePath, it) }
+                    aux.validated = Proto3MetaModelMapValidated(absolutePath, metaNumber)
                 }
             }
+        } else {
+            // Field is mapped to a generated proto.
+            aux.validated = Proto3MetaModelMapValidated(null, metaNumber)
         }
         return TraversalAction.CONTINUE
     }
