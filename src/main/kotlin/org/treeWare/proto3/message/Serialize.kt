@@ -18,6 +18,8 @@ internal fun serialize(mainModel: MainModel, output: CodedOutputStream) {
 private class SerializeVisitor(
     private val output: CodedOutputStream
 ) : AbstractLeader1ModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
+    private var isSkipLeave = false
+
     private fun writeTag(fieldNumber: Int, wireType: Int) {
         val tag = (fieldNumber shl WIRE_TYPE_BITS) or wireType
         output.writeUInt32NoTag(tag)
@@ -31,11 +33,12 @@ private class SerializeVisitor(
 
     override fun visitEntity(leaderEntity1: EntityModel): TraversalAction {
         // Entities are represented as messages, and they are not packed, so include tags.
-        val length = getProto3MessageInfo(leaderEntity1)?.serializedSize ?: return TraversalAction.CONTINUE
+        val length = getProto3MessageInfo(leaderEntity1)?.serializedSize ?: return TraversalAction.ABORT_SUB_TREE
         // NOTE: even if a message is empty, its tag and length (0) need to be included.
         val parentFieldMeta = leaderEntity1.parent.meta
         val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
-            ?: return TraversalAction.CONTINUE
+            ?: return if (isRootEntity(leaderEntity1)) TraversalAction.CONTINUE
+            else TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
         writeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED)
         writeLength(length)
         return TraversalAction.CONTINUE
@@ -50,11 +53,11 @@ private class SerializeVisitor(
     // further below for more details.
 
     override fun visitSingleField(leaderField1: SingleFieldModel): TraversalAction {
-        val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.CONTINUE
-        if (length <= 0) return TraversalAction.CONTINUE
+        val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.ABORT_SUB_TREE
+        if (length <= 0) return TraversalAction.ABORT_SUB_TREE
         if (isPackedType(leaderField1)) {
             val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                ?: return TraversalAction.CONTINUE
+                ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
             val wireType = getWireType(leaderField1)
             writeTag(fieldNumber, wireType)
         }
@@ -62,11 +65,11 @@ private class SerializeVisitor(
     }
 
     override fun visitListField(leaderField1: ListFieldModel): TraversalAction {
-        val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.CONTINUE
-        if (length <= 0) return TraversalAction.CONTINUE
+        val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.ABORT_SUB_TREE
+        if (length <= 0) return TraversalAction.ABORT_SUB_TREE
         if (isPackedType(leaderField1)) {
             val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                ?: return TraversalAction.CONTINUE
+                ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
             writeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED)
             writeLength(length)
         }

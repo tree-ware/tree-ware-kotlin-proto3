@@ -109,6 +109,34 @@ class ValidateProto3MetaModelMapTests {
     }
 
     @Test
+    fun `Proto3 mapping validation must fail for mapped enumeration with unmapped values`() {
+        val testPackageJson = """
+            |{
+            |  "name": "test.main",
+            |  "enumerations": [
+            |    {
+            |      "proto3_": {
+            |        "path": "person.proto:/Relationship"
+            |      },
+            |      "name": "address_book_relationship",
+            |      "values": [
+            |        {
+            |          "name": "parent",
+            |          "number": 0
+            |        }
+            |      ]
+            |    }
+            |  ]
+            |}
+        """.trimMargin()
+        val (metaModel, metaModelErrors) = newProto3TestMetaModel(testPackageJson)
+        assertNull(metaModel)
+        val expectedErrors =
+            listOf("/test.main/address_book_relationship/parent is not mapped but parent is mapped")
+        assertEquals(expectedErrors.joinToString("\n"), metaModelErrors.joinToString("\n"))
+    }
+
+    @Test
     fun `Proto3 mapping validation must fail for invalid entity mapping`() {
         val testPackageJson = """
             |{
@@ -201,6 +229,74 @@ class ValidateProto3MetaModelMapTests {
         assertNull(metaModel)
         val expectedErrors =
             listOf("/test.main/address_book_root/name number 2 does not match address_book.proto:/Root/name number 1")
+        assertEquals(expectedErrors.joinToString("\n"), metaModelErrors.joinToString("\n"))
+    }
+
+    @Test
+    fun `Proto3 mapping validation must fail for mapped enumeration field with unmapped field type`() {
+        val testPackageJson = """
+            |{
+            |  "name": "test.main",
+            |  "entities": [
+            |    {
+            |      "proto3_": {
+            |        "path": "address_book.proto:/Root"
+            |      },
+            |      "name": "address_book_root",
+            |      "fields": [
+            |        {
+            |          "proto3_": {},
+            |          "name": "type",
+            |          "number": 2,
+            |          "type": "enumeration",
+            |          "enumeration": {
+            |            "name": "enumeration1",
+            |            "package": "test.common"
+            |          }
+            |        }
+            |      ]
+            |    }
+            |  ]
+            |}
+        """.trimMargin()
+        val (metaModel, metaModelErrors) = newProto3TestMetaModel(testPackageJson)
+        assertNull(metaModel)
+        val expectedErrors =
+            listOf("/test.main/address_book_root/type enumeration field is mapped but enumeration is not mapped")
+        assertEquals(expectedErrors.joinToString("\n"), metaModelErrors.joinToString("\n"))
+    }
+
+    @Test
+    fun `Proto3 mapping validation must fail for mapped composition field with unmapped field type`() {
+        val testPackageJson = """
+            |{
+            |  "name": "test.main",
+            |  "entities": [
+            |    {
+            |      "proto3_": {
+            |        "path": "address_book.proto:/Root"
+            |      },
+            |      "name": "address_book_root",
+            |      "fields": [
+            |        {
+            |          "proto3_": {},
+            |          "name": "settings",
+            |          "number": 2,
+            |          "type": "composition",
+            |          "composition": {
+            |            "entity": "entity1",
+            |            "package": "test.common"
+            |          }
+            |        }
+            |      ]
+            |    }
+            |  ]
+            |}
+        """.trimMargin()
+        val (metaModel, metaModelErrors) = newProto3TestMetaModel(testPackageJson)
+        assertNull(metaModel)
+        val expectedErrors =
+            listOf("/test.main/address_book_root/settings composition field is mapped but entity is not mapped")
         assertEquals(expectedErrors.joinToString("\n"), metaModelErrors.joinToString("\n"))
     }
 
