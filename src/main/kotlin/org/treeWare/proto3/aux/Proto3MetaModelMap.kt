@@ -10,4 +10,4 @@ class Proto3MetaModelMap(
     var validated: Proto3MetaModelMapValidated? = null
 }
 
-data class Proto3MetaModelMapValidated(val path: String, val fieldNumber: Int)
+data class Proto3MetaModelMapValidated(val path: String?, val fieldNumber: Int)

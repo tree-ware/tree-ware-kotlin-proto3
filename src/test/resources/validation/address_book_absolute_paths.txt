@@ -30,3 +30,5 @@
 /address_book.main/address_book_person/relation -> person.proto:/Person/relation = 7
 /address_book.main/address_book_relation/id -> person.proto:/Relation/id = 1
 /address_book.main/address_book_relation/relationship -> person.proto:/Relation/relationship = 2
+/address_book.city/address_book_city/name -> null = 1
+/address_book.city/address_book_city_info/related_city_info -> null = 3
