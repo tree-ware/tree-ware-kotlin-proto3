@@ -54,7 +54,10 @@ class Proto3MessageAdapter(private val mainModel: MainModel) : MessageLite {
         val array = ByteArray(serializedSize)
         val codedOutput = CodedOutputStream.newInstance(array)
         writeTo(codedOutput)
-        codedOutput.checkNoSpaceLeft()
+        val spaceLeft = codedOutput.spaceLeft()
+        if (spaceLeft != 0) {
+            throw IllegalStateException("Expected $serializedSize bytes in coded output; $spaceLeft bytes missing")
+        }
         return array
     }
 

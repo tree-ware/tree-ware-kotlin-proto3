@@ -21,6 +21,7 @@
 /address_book.main/address_book_settings/last_name_first -> address_book.proto:/Settings/last_name_first = 1
 /address_book.main/address_book_settings/encrypt_hero_name -> address_book.proto:/Settings/encrypt_hero_name = 2
 /address_book.main/address_book_settings/card_colors -> address_book.proto:/Settings/card_colors = 3
+/address_book.main/address_book_settings/background_color -> address_book.proto:/Settings/background_color = 4
 /address_book.main/address_book_person/id -> person.proto:/Person/id = 1
 /address_book.main/address_book_person/first_name -> person.proto:/Person/first_name = 2
 /address_book.main/address_book_person/last_name -> person.proto:/Person/last_name = 3

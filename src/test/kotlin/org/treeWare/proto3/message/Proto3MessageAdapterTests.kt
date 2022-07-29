@@ -1,6 +1,7 @@
 package org.treeWare.proto3.message
 
 import AddressBook
+import PersonOuterClass
 import com.google.protobuf.ByteString
 import org.treeWare.metaModel.proto3AddressBookMetaModel
 import org.treeWare.model.getMainModelFromJsonString
@@ -58,6 +59,71 @@ class Proto3MessageAdapterTests {
         root.name = "Super Heroes"
         val settings = root.advancedSettingsBuilder
         settings.encryptHeroName = true
+        val expectedMessage = root.build()
+
+        val treeWareMessage = Proto3MessageAdapter(model)
+
+        val expectedSize = expectedMessage.serializedSize
+        val actualSize = treeWareMessage.serializedSize
+        assertEquals(expectedSize, actualSize)
+
+        val expectedBytes = expectedMessage.toByteArray().joinToString("\n")
+        val actualBytes = treeWareMessage.toByteArray().joinToString("\n")
+        assertEquals(expectedBytes, actualBytes)
+    }
+
+    @Test
+    fun `Proto3 message adapter must serialize single enumerations`() {
+        val modelJson = """
+            | {
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "settings": {
+            |       "background_color": "yellow"
+            |     }
+            |   }
+            | }
+        """.trimMargin()
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
+
+        // Build the expected message using generated code.
+        val root = AddressBook.Root.newBuilder()
+        root.name = "Super Heroes"
+        val settings = root.advancedSettingsBuilder
+        settings.backgroundColor = AddressBook.Settings.Color.YELLOW
+        val expectedMessage = root.build()
+
+        val treeWareMessage = Proto3MessageAdapter(model)
+
+        val expectedSize = expectedMessage.serializedSize
+        val actualSize = treeWareMessage.serializedSize
+        assertEquals(expectedSize, actualSize)
+
+        val expectedBytes = expectedMessage.toByteArray().joinToString("\n")
+        val actualBytes = treeWareMessage.toByteArray().joinToString("\n")
+        assertEquals(expectedBytes, actualBytes)
+    }
+
+    @Test
+    fun `Proto3 message adapter must not serialize unmapped single enumerations`() {
+        val modelJson = """
+            | {
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "settings": {
+            |       "background_color": "yellow",
+            |       "menu_color": "indigo"
+            |     }
+            |   }
+            | }
+        """.trimMargin()
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
+
+        // Build the expected message using generated code.
+        val root = AddressBook.Root.newBuilder()
+        root.name = "Super Heroes"
+        val settings = root.advancedSettingsBuilder
+        settings.backgroundColor = AddressBook.Settings.Color.YELLOW
         val expectedMessage = root.build()
 
         val treeWareMessage = Proto3MessageAdapter(model)
@@ -151,6 +217,67 @@ class Proto3MessageAdapterTests {
         person2.id = "a8aacf55-7810-4b43-afe5-4344f25435fd"
         person2.firstName = "Lois"
         person2.lastName = "Lane"
+        val expectedMessage = root.build()
+
+        val treeWareMessage = Proto3MessageAdapter(model)
+
+        val expectedSize = expectedMessage.serializedSize
+        val actualSize = treeWareMessage.serializedSize
+        assertEquals(expectedSize, actualSize)
+
+        val expectedBytes = expectedMessage.toByteArray().joinToString("\n")
+        val actualBytes = treeWareMessage.toByteArray().joinToString("\n")
+        assertEquals(expectedBytes, actualBytes)
+    }
+
+    @Test
+    fun `Proto3 message adapter must serialize enumerations inside composition sets`() {
+        val modelJson = """
+            | {
+            |   "address_book": {
+            |     "name": "Super Heroes",
+            |     "person": [
+            |       {
+            |         "id": "cc477201-48ec-4367-83a4-7fdbd92f8a6f",
+            |         "first_name": "Clark",
+            |         "relation": [
+            |           {
+            |             "id": "05ade278-4b44-43da-a0cc-14463854e397",
+            |             "relationship": "colleague"
+            |           }
+            |         ]
+            |       },
+            |       {
+            |         "id": "a8aacf55-7810-4b43-afe5-4344f25435fd",
+            |         "first_name": "Lois",
+            |         "relation": [
+            |           {
+            |             "id": "16634916-8f83-4376-ad42-37038e108a0b",
+            |             "relationship": "colleague"
+            |           }
+            |         ]
+            |       }
+            |     ]
+            |   }
+            | }
+        """.trimMargin()
+        val model = getMainModelFromJsonString(proto3AddressBookMetaModel, modelJson)
+
+        // Build the expected message using generated code.
+        val root = AddressBook.Root.newBuilder()
+        root.name = "Super Heroes"
+        val person1 = root.addPersonBuilder()
+        person1.id = "cc477201-48ec-4367-83a4-7fdbd92f8a6f"
+        person1.firstName = "Clark"
+        val person1Relation = person1.addRelationBuilder()
+        person1Relation.id = "05ade278-4b44-43da-a0cc-14463854e397"
+        person1Relation.relationship = PersonOuterClass.Relationship.COLLEAGUE
+        val person2 = root.addPersonBuilder()
+        person2.id = "a8aacf55-7810-4b43-afe5-4344f25435fd"
+        person2.firstName = "Lois"
+        val person2Relation = person2.addRelationBuilder()
+        person2Relation.id = "16634916-8f83-4376-ad42-37038e108a0b"
+        person2Relation.relationship = PersonOuterClass.Relationship.COLLEAGUE
         val expectedMessage = root.build()
 
         val treeWareMessage = Proto3MessageAdapter(model)
