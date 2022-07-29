@@ -18,6 +18,7 @@ internal fun computeSerializedSize(mainModel: MainModel) {
 private class ComputeSerializedSizeVisitor :
     AbstractLeader1ModelVisitor<TraversalAction>(TraversalAction.CONTINUE) {
     private val sizeStack = ArrayDeque<Int>()
+    private var isSkipLeave = false
 
     private fun visitElement(tagSize: Int = 0): TraversalAction {
         addToParentSize(tagSize)
@@ -51,13 +52,16 @@ private class ComputeSerializedSizeVisitor :
             // Entities are represented as messages, and they are not packed, so include tag size.
             val parentFieldMeta = leaderEntity1.parent.meta
             val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
-                ?: return TraversalAction.CONTINUE
+                ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
             val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
             return visitElement(tagSize)
         }
     }
 
-    override fun leaveEntity(leaderEntity1: EntityModel) = leaveElement(leaderEntity1, !isRootEntity(leaderEntity1))
+    override fun leaveEntity(leaderEntity1: EntityModel) {
+        if (!isSkipLeave) leaveElement(leaderEntity1, !isRootEntity(leaderEntity1))
+        isSkipLeave = false
+    }
 
     // Fields
 
@@ -70,27 +74,34 @@ private class ComputeSerializedSizeVisitor :
     override fun visitSingleField(leaderField1: SingleFieldModel): TraversalAction {
         val tagSize = if (isPackedType(leaderField1)) {
             val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                ?: return TraversalAction.CONTINUE
+                ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
             CodedOutputStream.computeTagSize(fieldNumber)
         } else 0
         return visitElement(tagSize)
     }
 
-    override fun leaveSingleField(leaderField1: SingleFieldModel) = leaveElement(leaderField1)
+    override fun leaveSingleField(leaderField1: SingleFieldModel) {
+        if (!isSkipLeave) leaveElement(leaderField1)
+        isSkipLeave = false
+    }
 
     override fun visitListField(leaderField1: ListFieldModel): TraversalAction {
         val tagSize =
             if (leaderField1.values.isEmpty()) 0
             else if (isPackedType(leaderField1)) {
                 val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                    ?: return TraversalAction.CONTINUE
+                    ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
                 CodedOutputStream.computeTagSize(fieldNumber)
             } else 0
         return visitElement(tagSize)
     }
 
-    override fun leaveListField(leaderField1: ListFieldModel) =
-        leaveElement(leaderField1, leaderField1.values.isNotEmpty() && isPackedType(leaderField1))
+    override fun leaveListField(leaderField1: ListFieldModel) {
+        if (!isSkipLeave) leaveElement(
+            leaderField1, leaderField1.values.isNotEmpty() && isPackedType(leaderField1)
+        )
+        isSkipLeave = false
+    }
 
     // SetFieldModel overrides are not needed because currently set-fields
     // support only entities, and repeated messages are not packed. So there
