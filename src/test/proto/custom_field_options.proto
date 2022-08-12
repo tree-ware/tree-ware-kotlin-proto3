@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package custom_field_options;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FieldOptions {
+  bool key = 50002;
+  bool required = 50003;
+  bool internal = 50004;
+  bool other = 50005;
+}
+
+

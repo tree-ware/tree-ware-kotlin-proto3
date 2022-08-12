@@ -1,0 +1,71 @@
+{
+  "meta_model": {
+    "packages": [
+      {
+        "name": "address_book.district",
+        "info": "Schema for storing district information",
+        "enumerations": [
+          {
+            "name": "test_enum",
+            "values": [
+              {
+                "name": "test_enum_value_1",
+                "number": 0
+              },
+              {
+                "name": "test_enum_value_2",
+                "number": 1
+              },
+              {
+                "name": "test_enum_value_3",
+                "number": 2
+              }
+            ]
+          }
+        ],
+        "entities": [
+          {
+            "name": "address_book_district",
+            "fields": [
+              {
+                "name": "name",
+                "number": 1,
+                "info": "District name",
+                "type": "string",
+                "is_key": true
+              },
+              {
+                "name": "city",
+                "number": 2,
+                "info": "Name of the city in which the district is",
+                "type": "string",
+                "is_key": true
+              }
+            ]
+          },
+          {
+            "name": "address_book_district_info",
+            "fields": [
+              {
+                "name": "district",
+                "number": 1,
+                "type": "composition",
+                "composition": {
+                  "entity": "address_book_district",
+                  "package": "address_book.district"
+                },
+                "is_key": true
+              },
+              {
+                "name": "info",
+                "number": 2,
+                "info": "Information about the district",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,13 +1,14 @@
 {
   "meta_model__proto3_": {
     "imports": [
-      "custom_options.proto"
+      "custom_message_options.proto",
+      "custom_field_options.proto"
     ],
     "key_field_options": [
-      "(custom_options.key) = true"
+      "(custom_field_options.key) = true"
     ],
     "required_field_options": [
-      "(custom_options.required) = true"
+      "(custom_field_options.required) = true"
     ]
   },
   "meta_model": {

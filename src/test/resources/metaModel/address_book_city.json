@@ -4,12 +4,30 @@
       {
         "name": "address_book.city",
         "info": "Schema for storing city information",
+        "enumerations": [
+          {
+            "name": "test_enum",
+            "values": [
+              {
+                "name": "test_enum_value_1",
+                "number": 0
+              },
+              {
+                "name": "test_enum_value_2",
+                "number": 1
+              },
+              {
+                "name": "test_enum_value_3",
+                "number": 2
+              }
+            ]
+          }
+        ],
         "entities": [
           {
             "proto3_": {
-              "path": "something",
               "options": [
-                "(custom_options.ctx) = cluster"
+                "(custom_message_options.scope) = organization"
               ]
             },
             "name": "address_book_city",
@@ -17,7 +35,7 @@
               {
                 "proto3_": {
                   "options": [
-                    "Test single inline option"
+                    "(custom_field_options.internal) = true"
                   ]
                 },
                 "name": "name",
@@ -45,8 +63,8 @@
           {
             "proto3_": {
               "options": [
-                "Test Entity Double option 1",
-                "Test Entity Double option 2"
+                "(custom_message_options.scope) = organization",
+                "(custom_message_options.entityOption) = true"
               ]
             },
             "name": "address_book_city_info",
@@ -70,9 +88,8 @@
               {
                 "proto3_": {
                   "options": [
-                    "inline 1",
-                    "inline 2",
-                    "inline 3"
+                    "(custom_field_options.internal) = true",
+                    "(custom_field_options.other) = true"
                   ]
                 },
                 "name": "related_city_info",
@@ -83,6 +100,16 @@
                   "package": "address_book.city"
                 },
                 "multiplicity": "list"
+              },
+              {
+                "name": "city_districts",
+                "number": 4,
+                "type": "composition",
+                "composition": {
+                  "entity": "address_book_district_info",
+                  "package": "address_book.district"
+                },
+                "multiplicity": "set"
               }
             ]
           }

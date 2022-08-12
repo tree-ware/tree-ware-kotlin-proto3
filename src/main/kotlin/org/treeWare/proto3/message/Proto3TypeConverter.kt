@@ -31,7 +31,7 @@ fun getEncodingType(fieldMeta: EntityModel): String =
         FieldType.PASSWORD2WAY -> "string"
         FieldType.ASSOCIATION -> "string"
         FieldType.ENUMERATION -> snakeToCamel(getEnumerationFieldName(fieldMeta))
-        FieldType.COMPOSITION -> snakeToCamel(getCompositionFieldName(fieldMeta))//throw IllegalStateException("$fieldType encountered")
+        FieldType.COMPOSITION -> snakeToCamel(getCompositionFieldName(fieldMeta))
         FieldType.ALIAS -> throw IllegalStateException("Unsupported field type: $fieldType")
         null -> throw java.lang.IllegalStateException("Null field type")
     }
