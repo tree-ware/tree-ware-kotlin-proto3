@@ -4,6 +4,9 @@
       "custom_message_options.proto",
       "custom_field_options.proto"
     ],
+    "options": [
+      "go_package = \"pb-go/config\""
+    ],
     "key_field_options": [
       "(custom_field_options.key) = true"
     ],

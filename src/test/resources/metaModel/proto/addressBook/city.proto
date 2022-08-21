@@ -1,29 +1,31 @@
 syntax = "proto3";
 
-package address_book.city;
+package addressBook.city;
 
 import "custom_message_options.proto";
 import "custom_field_options.proto";
 import "addressBook/district.proto";
 
+option go_package = "pb-go/config";
+
 enum TestEnum {
-   TEST_ENUM_VALUE_1 = 0;
-   TEST_ENUM_VALUE_2 = 1;
-   TEST_ENUM_VALUE_3 = 2;
+  TEST_ENUM_VALUE_1 = 0;
+  TEST_ENUM_VALUE_2 = 1;
+  TEST_ENUM_VALUE_3 = 2;
 }
 
 message AddressBookCity {
-   option (custom_message_options.scope) = organization;
-   string name = 1 [(custom_field_options.key) = true, (custom_field_options.internal) = true];
-   string state = 2 [(custom_field_options.key) = true];
-   string country = 3 [(custom_field_options.key) = true];
+  option (custom_message_options.scope) = organization;
+  string name = 1 [(custom_field_options.key) = true, (custom_field_options.internal) = true];
+  string state = 2 [(custom_field_options.key) = true];
+  string country = 3 [(custom_field_options.key) = true];
 }
 
 message AddressBookCityInfo {
-   option (custom_message_options.scope) = organization;
-   option (custom_message_options.entityOption) = true;
-   AddressBookCity city = 1 [(custom_field_options.key) = true];
-   string info = 2 [(custom_field_options.required) = true];
-   repeated string relatedCityInfo = 3 [(custom_field_options.internal) = true, (custom_field_options.other) = true];
-   repeated address_book.district.AddressBookDistrictInfo cityDistricts = 4;
+  option (custom_message_options.scope) = organization;
+  option (custom_message_options.entityOption) = true;
+  AddressBookCity city = 1 [(custom_field_options.key) = true];
+  string info = 2 [(custom_field_options.required) = true];
+  repeated string relatedCityInfo = 3 [(custom_field_options.internal) = true, (custom_field_options.other) = true];
+  repeated addressBook.district.AddressBookDistrictInfo cityDistricts = 4;
 }

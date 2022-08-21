@@ -8,32 +8,30 @@ import org.treeWare.model.core.EntityModel
 import org.treeWare.model.core.MainModel
 import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
+import org.treeWare.proto3.aux.Proto3MetaModelMap
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import java.io.File
+
+private const val INDENT = "  "
 
 fun encodeProto3(mainMetaModel: MainModel, writePath: String) {
     val protoVisitor = ProtoEncoderVisitor(writePath)
     metaModelForEach(mainMetaModel, protoVisitor)
 }
 
-
 private class ProtoEncoderVisitor(val writePath: String) :
     Leader1MetaModelVisitor<TraversalAction> {
 
-    var headerWriter = PicoWriter() //handles syntax and package
-    var importWriter = PicoWriter() //handles imports
-    var bodyWriter = PicoWriter() //handles everything that comes after imports
+    var headerWriter = PicoWriter(INDENT) //handles syntax and package
+    var importWriter = PicoWriter(INDENT) //handles imports
+    var optionsWriter = PicoWriter(INDENT)
+    var bodyWriter = PicoWriter(INDENT) //handles everything that comes after imports
     var currentPackage = ""
 
-    val keyOptions = mutableListOf<String>()
-    val requiredOptions = mutableListOf<String>()
-    val nonPackageImports = mutableListOf<String>()
+    var mainMetaModelMap: Proto3MetaModelMap? = null
 
     override fun visitMainMeta(leaderMainMeta1: MainModel): TraversalAction {
-        visitImports(leaderMainMeta1)
-        visitKeyFieldOptions(leaderMainMeta1)
-        visitRequiredFieldOptions(leaderMainMeta1)
-
+        mainMetaModelMap = getProto3MetaModelMap(leaderMainMeta1)
         return TraversalAction.CONTINUE
     }
 
@@ -48,12 +46,13 @@ private class ProtoEncoderVisitor(val writePath: String) :
     }
 
     override fun visitPackageMeta(leaderPackageMeta1: EntityModel): TraversalAction {
-        writeImports()
+        writeMainImports()
+        writeMainOptions()
         val name = getMetaName(leaderPackageMeta1)
         currentPackage = name
         headerWriter.writeln("syntax = \"proto3\";")
         headerWriter.writeln("")
-        headerWriter.writeln("package $name;")
+        headerWriter.writeln("package ${getProto3PackageName(name)};")
         headerWriter.writeln("")
 
         return TraversalAction.CONTINUE
@@ -68,13 +67,16 @@ private class ProtoEncoderVisitor(val writePath: String) :
             val outWriter = outFile.bufferedWriter()
             outWriter.write(headerWriter.toString())
             outWriter.write(importWriter.toString())
+            if (!optionsWriter.isEmpty) outWriter.write("\n")
+            outWriter.write(optionsWriter.toString())
             outWriter.write(bodyWriter.toString())
             outWriter.close()
         }
         /** clear writers **/
-        headerWriter = PicoWriter()
-        importWriter = PicoWriter()
-        bodyWriter = PicoWriter()
+        headerWriter = PicoWriter(INDENT)
+        importWriter = PicoWriter(INDENT)
+        optionsWriter = PicoWriter(INDENT)
+        bodyWriter = PicoWriter(INDENT)
     }
 
     override fun visitEnumerationMeta(leaderEnumerationMeta1: EntityModel): TraversalAction {
@@ -146,7 +148,7 @@ private class ProtoEncoderVisitor(val writePath: String) :
                 val importLine = "import \"$protoPackageName\";"
                 if (!importWriter.toString().contains(importLine))
                     importWriter.writeln(importLine)
-                fromPackage = "$packageName."
+                fromPackage = "${getProto3PackageName(packageName)}."
             }
         }
 
@@ -170,17 +172,16 @@ private class ProtoEncoderVisitor(val writePath: String) :
 
     fun visitFieldOptions(leaderFieldMeta: EntityModel) {
         var hasWrittenFirstOption = false
-        var options = mutableListOf<String>()
+        val options = mutableListOf<String>()
 
         if (isKeyFieldMeta(leaderFieldMeta)) {
-            options.addAll(keyOptions)
+            mainMetaModelMap?.keyFieldOptions?.also { options.addAll(it) }
         } else if (isRequiredFieldMeta(leaderFieldMeta)) {
-            options.addAll(requiredOptions)
+            mainMetaModelMap?.requiredFieldOptions?.also { options.addAll(it) }
         }
 
-        if (getProto3MetaModelMap(leaderFieldMeta)?.options != null) {
-            options.addAll(checkNotNull(getProto3MetaModelMap(leaderFieldMeta)?.options))
-        }
+        val fieldOptions = getProto3MetaModelMap(leaderFieldMeta)?.options
+        if (fieldOptions != null) options.addAll(fieldOptions)
 
         options.forEach { option ->
             val prefix = when (hasWrittenFirstOption) {
@@ -196,37 +197,21 @@ private class ProtoEncoderVisitor(val writePath: String) :
         bodyWriter.writeln(";")
     }
 
-    fun visitImports(leaderMeta: MainModel) {
-        getProto3MetaModelMap(leaderMeta)?.imports?.forEach { import ->
-            val importString = "import \"$import\";"
-            nonPackageImports.add(importString)
-        }
+    fun writeMainImports() {
+        mainMetaModelMap?.imports?.forEach { importWriter.writeln("import \"$it\";") }
     }
 
-    fun writeImports() {
-        if (nonPackageImports.isNotEmpty()) {
-            nonPackageImports.forEach {
-                importWriter.writeln(it)
-            }
-        }
+    fun writeMainOptions() {
+        mainMetaModelMap?.options?.forEach { optionsWriter.writeln("option $it;") }
     }
 
-    fun visitKeyFieldOptions(leaderMeta: MainModel) {
-        getProto3MetaModelMap(leaderMeta)?.keyFieldOptions?.forEach { keyOption ->
-            keyOptions.add(keyOption)
-        }
-    }
-
-    fun visitRequiredFieldOptions(leaderMeta: MainModel) {
-        getProto3MetaModelMap(leaderMeta)?.requiredFieldOptions?.forEach { requiredOption ->
-            requiredOptions.add(requiredOption)
-        }
-    }
+    fun getProto3PackageName(treeWarePackageName: String): String =
+        treeWarePackageName.split(".").joinToString(".") { snakeToLowerCamel(it) }
 
     /** This takes a package name and then returns the relative path to a proto file **/
     // It also creates the directory if it doesn't exist
     fun generateFileName(packageName: String): String {
-        var fullName = packageName.split(".")
+        val fullName = packageName.split(".")
         val camelName = fullName.map { snakeToLowerCamel(it) }
         val fileName = camelName.last()
         val directoryName = camelName.dropLast(1).joinToString("/")
