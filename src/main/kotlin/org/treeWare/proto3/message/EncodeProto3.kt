@@ -176,7 +176,7 @@ private class ProtoEncoderVisitor(val writePath: String) :
 
         if (isKeyFieldMeta(leaderFieldMeta)) {
             mainMetaModelMap?.keyFieldOptions?.also { options.addAll(it) }
-        } else if (isRequiredFieldMeta(leaderFieldMeta)) {
+        } else if (isUnconditionallyRequiredFieldMeta(leaderFieldMeta)) {
             mainMetaModelMap?.requiredFieldOptions?.also { options.addAll(it) }
         }
 
