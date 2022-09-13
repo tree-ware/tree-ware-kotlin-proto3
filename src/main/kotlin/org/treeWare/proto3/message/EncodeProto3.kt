@@ -96,9 +96,10 @@ private class ProtoEncoderVisitor(val writePath: String) :
     }
 
     override fun visitEnumerationValueMeta(leaderEnumerationValueMeta1: EntityModel): TraversalAction {
+        val enumName = getMetaName(getParentEnumerationMeta(leaderEnumerationValueMeta1)).uppercase()
         val enumValue = getMetaName(leaderEnumerationValueMeta1).uppercase()
         val enumNumber = getMetaNumber(leaderEnumerationValueMeta1)
-        bodyWriter.writeln("$enumValue = $enumNumber;")
+        bodyWriter.writeln("${enumName}_$enumValue = $enumNumber;")
         return TraversalAction.CONTINUE
     }
 
@@ -189,6 +190,7 @@ private class ProtoEncoderVisitor(val writePath: String) :
                     hasWrittenFirstOption = true
                     " ["
                 }
+
                 true -> ", "
             }
             bodyWriter.write("$prefix$option")

@@ -9,15 +9,15 @@
             "name": "test_enum",
             "values": [
               {
-                "name": "test_enum_value_1",
+                "name": "value_1",
                 "number": 0
               },
               {
-                "name": "test_enum_value_2",
+                "name": "value_2",
                 "number": 1
               },
               {
-                "name": "test_enum_value_3",
+                "name": "value_3",
                 "number": 2
               }
             ]
