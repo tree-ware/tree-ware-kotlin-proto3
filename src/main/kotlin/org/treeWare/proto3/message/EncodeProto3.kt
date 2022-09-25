@@ -65,6 +65,7 @@ private class ProtoEncoderVisitor(val writePath: String) :
             val filename = generateFileName(packageName)
             val outFile = File("$writePath/$filename")
             val outWriter = outFile.bufferedWriter()
+            outWriter.write("// AUTO-GENERATED FILE. DO NOT EDIT.\n\n")
             outWriter.write(headerWriter.toString())
             outWriter.write(importWriter.toString())
             if (!optionsWriter.isEmpty) outWriter.write("\n")
