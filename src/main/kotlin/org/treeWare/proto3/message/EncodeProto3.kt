@@ -38,6 +38,13 @@ private class ProtoEncoderVisitor(val writePath: String) :
     override fun leaveMainMeta(leaderMainMeta1: MainModel) {
     }
 
+    override fun visitVersionMeta(leaderVersionMeta1: EntityModel): TraversalAction {
+        return TraversalAction.CONTINUE
+    }
+
+    override fun leaveVersionMeta(leaderVersionMeta1: EntityModel) {
+    }
+
     override fun visitRootMeta(leaderRootMeta1: EntityModel): TraversalAction {
         return TraversalAction.CONTINUE
     }
