@@ -6,10 +6,10 @@ import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
 import org.treeWare.model.core.MainModel
 import org.treeWare.model.core.getMetaModelResolved
-import org.treeWare.model.readFile
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.Proto3MetaModelMapAuxPlugin
 import org.treeWare.proto3.aux.getProto3MetaModelMap
+import org.treeWare.util.readFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
