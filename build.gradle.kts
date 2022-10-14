@@ -1,7 +1,3 @@
-import com.google.protobuf.gradle.builtins
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "org.tree-ware"
@@ -14,7 +10,7 @@ plugins {
     id("idea")
     id("java-library")
     id("java-test-fixtures")
-    id("com.google.protobuf").version("0.8.17")
+    id("com.google.protobuf").version("0.9.1")
 }
 
 repositories {
