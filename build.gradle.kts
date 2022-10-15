@@ -34,7 +34,13 @@ dependencies {
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        when (System.getProperty("integrationTests", "")) {
+            "include" -> includeTags("integrationTest")
+            "exclude" -> excludeTags("integrationTest")
+            else -> {}
+        }
+    }
 }
 
 protobuf {
