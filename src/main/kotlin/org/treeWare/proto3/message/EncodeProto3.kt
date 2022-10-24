@@ -1,5 +1,7 @@
 package org.treeWare.proto3.message
 
+import okio.FileSystem
+import okio.Path.Companion.toPath
 import org.ainslec.picocog.PicoWriter
 import org.treeWare.metaModel.*
 import org.treeWare.metaModel.traversal.Leader1MetaModelVisitor
@@ -10,7 +12,6 @@ import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.Proto3MetaModelMap
 import org.treeWare.proto3.aux.getProto3MetaModelMap
-import java.io.File
 
 private const val INDENT = "  "
 
@@ -70,15 +71,14 @@ private class ProtoEncoderVisitor(val writePath: String) :
             /** Handle the actual writing to a file **/
             val packageName = getMetaName(leaderPackageMeta1)
             val filename = generateFileName(packageName)
-            val outFile = File("$writePath/$filename")
-            val outWriter = outFile.bufferedWriter()
-            outWriter.write("// AUTO-GENERATED FILE. DO NOT EDIT.\n\n")
-            outWriter.write(headerWriter.toString())
-            outWriter.write(importWriter.toString())
-            if (!optionsWriter.isEmpty) outWriter.write("\n")
-            outWriter.write(optionsWriter.toString())
-            outWriter.write(bodyWriter.toString())
-            outWriter.close()
+            FileSystem.SYSTEM.write("$writePath/$filename".toPath()) {
+                this.writeUtf8("// AUTO-GENERATED FILE. DO NOT EDIT.\n\n")
+                this.writeUtf8(headerWriter.toString())
+                this.writeUtf8(importWriter.toString())
+                if (!optionsWriter.isEmpty) this.writeUtf8("\n")
+                this.writeUtf8(optionsWriter.toString())
+                this.writeUtf8(bodyWriter.toString())
+            }
         }
         /** clear writers **/
         headerWriter = PicoWriter(INDENT)
@@ -226,8 +226,7 @@ private class ProtoEncoderVisitor(val writePath: String) :
         val fileName = camelName.last()
         val directoryName = camelName.dropLast(1).joinToString("/")
         val fullDirectoryPath = "$writePath/$directoryName"
-        val directory = File(fullDirectoryPath)
-        if (!directory.exists()) directory.mkdirs()
+        FileSystem.SYSTEM.createDirectories(fullDirectoryPath.toPath())
         return "$directoryName/$fileName.proto"
     }
 }
