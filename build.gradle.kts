@@ -1,9 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "org.tree-ware"
-version = "1.0-SNAPSHOT"
+group = "org.tree-ware.tree-ware-kotlin-proto3"
+version = "0.1.0.0"
 
 val protoVersion = "3.19.1"
+val treeWareCoreVersion = "0.1.0.0"
+val treeWareCoreTestFixturesVersion = "0.1.0.0"
 
 plugins {
     id("org.jetbrains.kotlin.jvm").version("1.7.0")
@@ -11,11 +13,13 @@ plugins {
     id("java-library")
     id("java-test-fixtures")
     id("com.google.protobuf").version("0.9.1")
+    id("maven-publish")
 }
 
 repositories {
     jcenter()
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 tasks.withType<KotlinCompile> {
@@ -24,12 +28,12 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
-    implementation(project(":tree-ware-kotlin-core"))
+    implementation("org.tree-ware.tree-ware-kotlin-core:core:$treeWareCoreVersion")
     implementation("com.google.protobuf:protobuf-kotlin:$protoVersion")
     implementation(kotlin("stdlib"))
     implementation("org.ainslec:picocog:1.0.7")
 
-    testImplementation(project(":tree-ware-kotlin-core:test-fixtures"))
+    testImplementation("org.tree-ware.tree-ware-kotlin-core:test-fixtures:$treeWareCoreTestFixturesVersion")
     testImplementation(kotlin("test"))
 }
 
