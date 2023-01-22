@@ -8,7 +8,7 @@ val treeWareCoreVersion = "0.1.0.0"
 val treeWareCoreTestFixturesVersion = "0.1.0.0"
 
 plugins {
-    id("org.jetbrains.kotlin.jvm").version("1.7.0")
+    kotlin("jvm") version "1.7.0"
     id("idea")
     id("java-library")
     id("java-test-fixtures")
@@ -59,6 +59,14 @@ protobuf {
                 // TODO(mohit): figure out Kotlin syntax for the following Groovy syntax.
 //                remove(java)
             }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
