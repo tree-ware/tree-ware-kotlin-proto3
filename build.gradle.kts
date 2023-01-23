@@ -11,13 +11,11 @@ plugins {
     kotlin("jvm") version "1.7.0"
     id("idea")
     id("java-library")
-    id("java-test-fixtures")
     id("com.google.protobuf").version("0.9.1")
     id("maven-publish")
 }
 
 repositories {
-    jcenter()
     mavenCentral()
     maven { url = uri("https://jitpack.io") }
 }
