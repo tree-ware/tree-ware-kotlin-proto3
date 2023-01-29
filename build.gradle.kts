@@ -1,11 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "org.tree-ware.tree-ware-kotlin-proto3"
-version = "0.1.0.0"
+// The libraries are currently published to JitPack. JitPack picks up the
+// version from the repo label, resulting in all libraries from the repo
+// having the same version in JitPack. Setting the version for all projects
+// conveys this.
+allprojects {
+    group = "org.tree-ware.tree-ware-kotlin-proto3"
+    version = "0.1.0.2"
+}
 
 val protoVersion = "3.19.1"
-val treeWareCoreVersion = "0.1.0.0"
-val treeWareCoreTestFixturesVersion = "0.1.0.0"
+val treeWareCoreVersion = "0.1.0.2"
 
 plugins {
     kotlin("jvm") version "1.7.0"
@@ -31,7 +36,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.ainslec:picocog:1.0.7")
 
-    testImplementation("org.tree-ware.tree-ware-kotlin-core:test-fixtures:$treeWareCoreTestFixturesVersion")
+    testImplementation("org.tree-ware.tree-ware-kotlin-core:test-fixtures:$treeWareCoreVersion")
     testImplementation(kotlin("test"))
 }
 
