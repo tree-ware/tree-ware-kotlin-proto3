@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package addressBook;
+
 enum Relationship {
   UNKNOWN = 0;
   PARENT = 1;

@@ -138,8 +138,8 @@ private class SerializeVisitor(
                 }
             }
             FieldType.TIMESTAMP -> {
-                val long = value as Long
-                if (long != 0L) output.writeUInt64NoTag(long)
+                val ulong = value as ULong
+                if (ulong != 0UL) output.writeUInt64NoTag(ulong.toLong())
             }
             FieldType.STRING,
             FieldType.UUID -> {

@@ -1,7 +1,7 @@
 package org.treeWare.proto3.message
 
-import AddressBook
-import PersonOuterClass
+import addressBook.AddressBook
+import addressBook.PersonOuterClass
 import com.google.protobuf.ByteString
 import org.treeWare.metaModel.proto3AddressBookMetaModel
 import org.treeWare.model.getMainModelFromJsonString

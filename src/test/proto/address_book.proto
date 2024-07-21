@@ -1,4 +1,7 @@
 syntax = "proto3";
+
+package addressBook;
+
 import "person.proto";
 
 message Settings {

@@ -166,8 +166,8 @@ private class ComputeSerializedSizeVisitor :
                 }
             }
             FieldType.TIMESTAMP -> {
-                val long = value as Long
-                if (long == 0L) 0 else CodedOutputStream.computeUInt64SizeNoTag(long)
+                val ulong = value as ULong
+                if (ulong == 0UL) 0 else CodedOutputStream.computeUInt64SizeNoTag(ulong.toLong())
             }
             FieldType.STRING,
             FieldType.UUID -> {
