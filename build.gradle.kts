@@ -6,16 +6,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // conveys this.
 allprojects {
     group = "org.tree-ware.tree-ware-kotlin-proto3"
-    version = "0.2.0.0"
+    version = "0.3.0.0"
 }
 
 val protoVersion = "3.19.1"
-val treeWareCoreVersion = "0.2.0.0"
+val treeWareCoreVersion = "0.3.0.0"
 
 plugins {
     kotlin("jvm") version "1.7.0"
     id("idea")
-    id("org.tree-ware.core") version "0.1.0.0"
+    id("org.tree-ware.core") version "0.3.0.0"
     id("java-library")
     id("com.google.protobuf").version("0.9.1")
     id("maven-publish")

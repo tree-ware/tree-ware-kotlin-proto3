@@ -7,7 +7,6 @@ import org.treeWare.metaModel.*
 import org.treeWare.metaModel.traversal.Leader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
-import org.treeWare.model.core.MainModel
 import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.Proto3MetaModelMap
@@ -15,9 +14,9 @@ import org.treeWare.proto3.aux.getProto3MetaModelMap
 
 private const val INDENT = "  "
 
-fun encodeProto3(mainMetaModel: MainModel, writePath: String) {
+fun encodeProto3(metaModel: EntityModel, writePath: String) {
     val protoVisitor = ProtoEncoderVisitor(writePath)
-    metaModelForEach(mainMetaModel, protoVisitor)
+    metaModelForEach(metaModel, protoVisitor)
 }
 
 private class ProtoEncoderVisitor(val writePath: String) :
@@ -31,12 +30,12 @@ private class ProtoEncoderVisitor(val writePath: String) :
 
     var mainMetaModelMap: Proto3MetaModelMap? = null
 
-    override fun visitMainMeta(leaderMainMeta1: MainModel): TraversalAction {
-        mainMetaModelMap = getProto3MetaModelMap(leaderMainMeta1)
+    override fun visitMetaModel(leaderMeta1: EntityModel): TraversalAction {
+        mainMetaModelMap = getProto3MetaModelMap(leaderMeta1)
         return TraversalAction.CONTINUE
     }
 
-    override fun leaveMainMeta(leaderMainMeta1: MainModel) {
+    override fun leaveMetaModel(leaderMeta1: EntityModel) {
     }
 
     override fun visitVersionMeta(leaderVersionMeta1: EntityModel): TraversalAction {
@@ -139,9 +138,7 @@ private class ProtoEncoderVisitor(val writePath: String) :
         var repeat = ""
         var fromPackage = ""
 
-        if (getMultiplicityMeta(leaderFieldMeta1) == Multiplicity.LIST ||
-            getMultiplicityMeta(leaderFieldMeta1) == Multiplicity.SET
-        ) repeat = "repeated "
+        if (getMultiplicityMeta(leaderFieldMeta1) == Multiplicity.SET) repeat = "repeated "
 
         val fieldType = getFieldTypeMeta(leaderFieldMeta1)
         if (fieldType == FieldType.COMPOSITION || fieldType == FieldType.ENUMERATION) {

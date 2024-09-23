@@ -11,8 +11,8 @@ import org.treeWare.model.traversal.forEach
 import org.treeWare.proto3.aux.getProto3MessageInfo
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 
-internal fun serialize(mainModel: MainModel, output: CodedOutputStream) {
-    forEach(mainModel, SerializeVisitor(output), true)
+internal fun serialize(metaModel: EntityModel, output: CodedOutputStream) {
+    forEach(metaModel, SerializeVisitor(output), true)
 }
 
 private class SerializeVisitor(
@@ -35,7 +35,7 @@ private class SerializeVisitor(
         // Entities are represented as messages, and they are not packed, so include tags.
         val length = getProto3MessageInfo(leaderEntity1)?.serializedSize ?: return TraversalAction.ABORT_SUB_TREE
         // NOTE: even if a message is empty, its tag and length (0) need to be included.
-        val parentFieldMeta = leaderEntity1.parent.meta
+        val parentFieldMeta = leaderEntity1.parent?.meta
         val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
             ?: return if (isRootEntity(leaderEntity1)) TraversalAction.CONTINUE
             else TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
@@ -60,18 +60,6 @@ private class SerializeVisitor(
                 ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
             val wireType = getWireType(leaderField1)
             writeTag(fieldNumber, wireType)
-        }
-        return TraversalAction.CONTINUE
-    }
-
-    override fun visitListField(leaderField1: ListFieldModel): TraversalAction {
-        val length = getProto3MessageInfo(leaderField1)?.serializedSize ?: return TraversalAction.ABORT_SUB_TREE
-        if (length <= 0) return TraversalAction.ABORT_SUB_TREE
-        if (isPackedType(leaderField1)) {
-            val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
-            writeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED)
-            writeLength(length)
         }
         return TraversalAction.CONTINUE
     }

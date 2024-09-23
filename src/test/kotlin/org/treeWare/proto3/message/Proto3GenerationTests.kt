@@ -10,7 +10,7 @@ class Proto3GenerationTests {
     fun `Proto3 encoder must create proto files from metaModel`() {
         val writeDirectoryName = "generated/proto"
         encodeProto3(proto3AddressBookMetaModel, writeDirectoryName)
-        val writePath = "generated/proto/addressBook"
+        val writePath = "generated/proto/org/treeWare/test/addressBook"
         val testPath = "src/test/resources/metaModel/proto/addressBook"
         assertTrue(directoriesEqual(writePath, testPath))
     }

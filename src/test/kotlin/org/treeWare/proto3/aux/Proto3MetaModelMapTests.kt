@@ -1,13 +1,15 @@
 package org.treeWare.proto3.aux
 
 import org.treeWare.metaModel.PROTO3_ADDRESS_BOOK_META_MODEL_FILES
-import org.treeWare.metaModel.newMainMetaMetaModel
+import org.treeWare.metaModel.getResolvedRootMeta
+import org.treeWare.metaModel.newMetaMetaModel
 import org.treeWare.model.decoder.stateMachine.MultiAuxDecodingStateMachineFactory
 import org.treeWare.model.encoder.MultiAuxEncoder
 import org.treeWare.model.testRoundTrip
 import kotlin.test.Test
 
-private val metaMetaModel = newMainMetaMetaModel()
+private val metaMetaModel = newMetaMetaModel()
+private val metaRootEntityMeta = getResolvedRootMeta(metaMetaModel)
 
 class Proto3MetaModelMapTests {
     @Test
@@ -23,7 +25,7 @@ class Proto3MetaModelMapTests {
                 multiAuxDecodingStateMachineFactory = MultiAuxDecodingStateMachineFactory(
                     proto3MetaModelMapAuxPlugin.auxName to proto3MetaModelMapAuxPlugin.auxDecodingStateMachineFactory
                 ),
-                metaModel = metaMetaModel
+                entityMeta = metaRootEntityMeta
             )
         }
     }

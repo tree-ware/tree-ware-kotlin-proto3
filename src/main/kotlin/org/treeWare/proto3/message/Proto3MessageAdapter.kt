@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString
 import com.google.protobuf.CodedOutputStream
 import com.google.protobuf.MessageLite
 import com.google.protobuf.Parser
-import org.treeWare.model.core.MainModel
+import org.treeWare.model.core.EntityModel
 import org.treeWare.proto3.aux.getProto3MessageInfo
 import java.io.OutputStream
 
@@ -19,7 +19,7 @@ import java.io.OutputStream
  *
  * Proto3 wire format: https://developers.google.com/protocol-buffers/docs/encoding
  */
-class Proto3MessageAdapter(private val mainModel: MainModel) : MessageLite {
+class Proto3MessageAdapter(private val metaModel: EntityModel) : MessageLite {
     private var isMemoized = false
 
     override fun getDefaultInstanceForType(): MessageLite = throw UnsupportedOperationException()
@@ -27,7 +27,7 @@ class Proto3MessageAdapter(private val mainModel: MainModel) : MessageLite {
     override fun isInitialized(): Boolean = throw UnsupportedOperationException()
 
     override fun writeTo(output: CodedOutputStream) {
-        serialize(mainModel, output)
+        serialize(metaModel, output)
     }
 
     override fun writeTo(output: OutputStream) {
@@ -40,10 +40,10 @@ class Proto3MessageAdapter(private val mainModel: MainModel) : MessageLite {
 
     override fun getSerializedSize(): Int {
         if (!isMemoized) {
-            computeSerializedSize(mainModel)
+            computeSerializedSize(metaModel)
             isMemoized = true
         }
-        return getProto3MessageInfo(mainModel)?.serializedSize ?: 0
+        return getProto3MessageInfo(metaModel)?.serializedSize ?: 0
     }
 
     override fun getParserForType(): Parser<out MessageLite> = throw UnsupportedOperationException()

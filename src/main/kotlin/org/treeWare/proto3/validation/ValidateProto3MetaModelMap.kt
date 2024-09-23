@@ -8,16 +8,16 @@ import org.treeWare.metaModel.getMetaNumber
 import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
-import org.treeWare.model.core.MainModel
+import org.treeWare.model.core.MutableEntityModel
 import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.Proto3MetaModelMapValidated
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import java.io.FileInputStream
 
-fun validateProto3MetaModelMap(mainMeta: MainModel, protoDescriptorFile: String): List<String> {
+fun validateProto3MetaModelMap(metaModel: MutableEntityModel, protoDescriptorFile: String): List<String> {
     val visitor = ValidateProto3MetaModelMapVisitor(protoDescriptorFile)
-    metaModelForEach(mainMeta, visitor)
+    metaModelForEach(metaModel, visitor)
     return visitor.errors
 }
 

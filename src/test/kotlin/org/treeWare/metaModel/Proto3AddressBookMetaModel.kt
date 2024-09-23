@@ -27,3 +27,5 @@ const val PROTO_DESCRIPTOR_FILE = "build/generated/source/proto/test/descriptor_
 
 val proto3AddressBookMetaModel = newProto3AddressBookMetaModel(null, null, PROTO_DESCRIPTOR_FILE).metaModel
     ?: throw IllegalStateException("Meta-model has validation errors")
+
+val proto3AddressBookRootEntityMeta = getResolvedRootMeta(proto3AddressBookMetaModel)

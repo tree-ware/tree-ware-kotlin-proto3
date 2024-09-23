@@ -2,11 +2,11 @@
 
 syntax = "proto3";
 
-package addressBook.city;
+package org.treeWare.test.addressBook.city;
 
 import "custom_message_options.proto";
 import "custom_field_options.proto";
-import "addressBook/district.proto";
+import "org/treeWare/test/addressBook/district.proto";
 
 option go_package = "pb-go/config";
 
@@ -28,6 +28,5 @@ message AddressBookCityInfo {
   option (custom_message_options.entityOption) = true;
   AddressBookCity city = 1 [(custom_field_options.key) = true];
   string info = 2 [(custom_field_options.required) = true];
-  repeated string relatedCityInfo = 3 [(custom_field_options.internal) = true, (custom_field_options.other) = true];
-  repeated addressBook.district.AddressBookDistrictInfo cityDistricts = 4;
+  repeated org.treeWare.test.addressBook.district.AddressBookDistrictInfo cityDistricts = 4;
 }

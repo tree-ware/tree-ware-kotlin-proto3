@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 
-package addressBook.district;
+package org.treeWare.test.addressBook.district;
 
 import "custom_message_options.proto";
 import "custom_field_options.proto";

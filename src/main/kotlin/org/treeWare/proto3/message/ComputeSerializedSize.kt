@@ -11,8 +11,8 @@ import org.treeWare.proto3.aux.Proto3MessageInfo
 import org.treeWare.proto3.aux.getProto3MetaModelMap
 import org.treeWare.proto3.aux.setProto3MessageInfo
 
-internal fun computeSerializedSize(mainModel: MainModel) {
-    forEach(mainModel, ComputeSerializedSizeVisitor(), true)
+internal fun computeSerializedSize(metaModel: EntityModel) {
+    forEach(metaModel, ComputeSerializedSizeVisitor(), true)
 }
 
 private class ComputeSerializedSizeVisitor :
@@ -43,14 +43,11 @@ private class ComputeSerializedSizeVisitor :
 
     // Leader1ModelVisitor methods
 
-    override fun visitMain(leaderMain1: MainModel): TraversalAction = visitElement()
-    override fun leaveMain(leaderMain1: MainModel) = leaveElement(leaderMain1)
-
     override fun visitEntity(leaderEntity1: EntityModel): TraversalAction {
         if (isRootEntity(leaderEntity1)) return visitElement()
         else {
             // Entities are represented as messages, and they are not packed, so include tag size.
-            val parentFieldMeta = leaderEntity1.parent.meta
+            val parentFieldMeta = leaderEntity1.parent?.meta
             val fieldNumber = getProto3MetaModelMap(parentFieldMeta)?.validated?.fieldNumber
                 ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
             val tagSize = CodedOutputStream.computeTagSize(fieldNumber)
@@ -82,24 +79,6 @@ private class ComputeSerializedSizeVisitor :
 
     override fun leaveSingleField(leaderField1: SingleFieldModel) {
         if (!isSkipLeave) leaveElement(leaderField1)
-        isSkipLeave = false
-    }
-
-    override fun visitListField(leaderField1: ListFieldModel): TraversalAction {
-        val tagSize =
-            if (leaderField1.values.isEmpty()) 0
-            else if (isPackedType(leaderField1)) {
-                val fieldNumber = getProto3MetaModelMap(leaderField1.meta)?.validated?.fieldNumber
-                    ?: return TraversalAction.ABORT_SUB_TREE.also { isSkipLeave = true }
-                CodedOutputStream.computeTagSize(fieldNumber)
-            } else 0
-        return visitElement(tagSize)
-    }
-
-    override fun leaveListField(leaderField1: ListFieldModel) {
-        if (!isSkipLeave) leaveElement(
-            leaderField1, leaderField1.values.isNotEmpty() && isPackedType(leaderField1)
-        )
         isSkipLeave = false
     }
 

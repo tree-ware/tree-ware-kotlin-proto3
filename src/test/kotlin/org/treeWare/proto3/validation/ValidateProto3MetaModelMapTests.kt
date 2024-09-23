@@ -4,7 +4,6 @@ import org.treeWare.metaModel.*
 import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
-import org.treeWare.model.core.MainModel
 import org.treeWare.model.core.defaultRootEntityFactory
 import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
@@ -252,7 +251,7 @@ class ValidateProto3MetaModelMapTests {
             |          "type": "enumeration",
             |          "enumeration": {
             |            "name": "enumeration1",
-            |            "package": "test.common"
+            |            "package": "org.tree_ware.test.common"
             |          }
             |        }
             |      ]
@@ -286,7 +285,7 @@ class ValidateProto3MetaModelMapTests {
             |          "type": "composition",
             |          "composition": {
             |            "entity": "entity1",
-            |            "package": "test.common"
+            |            "package": "org.tree_ware.test.common"
             |          }
             |        }
             |      ]
@@ -320,9 +319,9 @@ private fun newProto3TestMetaModel(testPackageJson: String): ValidatedMetaModel 
     true
 )
 
-private fun getProto3Mappings(mainMeta: MainModel): List<String> {
+private fun getProto3Mappings(metaModel: EntityModel): List<String> {
     val visitor = GetProto3MappingsVisitor()
-    metaModelForEach(mainMeta, visitor)
+    metaModelForEach(metaModel, visitor)
     return visitor.mappings
 }
 
