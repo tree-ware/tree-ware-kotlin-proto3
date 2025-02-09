@@ -1,8 +1,6 @@
 package org.treeWare.metaModel
 
-import org.treeWare.model.core.Cipher
-import org.treeWare.model.core.Hasher
-import org.treeWare.model.core.defaultRootEntityFactory
+import org.treeWare.model.core.*
 import org.treeWare.proto3.aux.Proto3MetaModelMapAuxPlugin
 
 val PROTO3_ADDRESS_BOOK_META_MODEL_FILES = listOf(
@@ -18,7 +16,7 @@ fun newProto3AddressBookMetaModel(hasher: Hasher?, cipher: Cipher?, protoDescrip
         false,
         hasher,
         cipher,
-        ::defaultRootEntityFactory,
+        ::proto3AddressBookRootEntityFactory,
         listOf(Proto3MetaModelMapAuxPlugin(protoDescriptorFile)),
         true
     )
@@ -29,3 +27,6 @@ val proto3AddressBookMetaModel = newProto3AddressBookMetaModel(null, null, PROTO
     ?: throw IllegalStateException("Meta-model has validation errors")
 
 val proto3AddressBookRootEntityMeta = getResolvedRootMeta(proto3AddressBookMetaModel)
+
+fun proto3AddressBookRootEntityFactory(parent: MutableFieldModel?) =
+    MutableEntityModel(proto3AddressBookRootEntityMeta, parent)

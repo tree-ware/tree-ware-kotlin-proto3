@@ -4,7 +4,6 @@ import org.treeWare.metaModel.*
 import org.treeWare.metaModel.traversal.AbstractLeader1MetaModelVisitor
 import org.treeWare.metaModel.traversal.metaModelForEach
 import org.treeWare.model.core.EntityModel
-import org.treeWare.model.core.defaultRootEntityFactory
 import org.treeWare.model.core.getMetaModelResolved
 import org.treeWare.model.traversal.TraversalAction
 import org.treeWare.proto3.aux.Proto3MetaModelMapAuxPlugin
@@ -314,7 +313,7 @@ private fun newProto3TestMetaModel(testPackageJson: String): ValidatedMetaModel 
     false,
     null,
     null,
-    ::defaultRootEntityFactory,
+    ::metaModelRootEntityFactory,
     listOf(Proto3MetaModelMapAuxPlugin(PROTO_DESCRIPTOR_FILE)),
     true
 )

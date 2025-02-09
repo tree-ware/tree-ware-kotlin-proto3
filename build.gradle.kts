@@ -6,16 +6,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // conveys this.
 allprojects {
     group = "org.tree-ware.tree-ware-kotlin-proto3"
-    version = "0.3.0.0"
+    version = "0.4.0.0"
 }
 
 val protoVersion = "3.19.1"
-val treeWareCoreVersion = "0.3.0.0"
 
 plugins {
     kotlin("jvm") version "1.7.0"
     id("idea")
-    id("org.tree-ware.core") version "0.3.0.0"
+    id("org.tree-ware.core") version "0.4.0.0"
     id("java-library")
     id("com.google.protobuf").version("0.9.1")
     id("maven-publish")
@@ -32,12 +31,12 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
-    implementation("org.tree-ware.tree-ware-kotlin-core:core:$treeWareCoreVersion")
+    implementation(libs.treeWareKotlinCore)
     implementation("com.google.protobuf:protobuf-kotlin:$protoVersion")
     implementation(kotlin("stdlib"))
     implementation("org.ainslec:picocog:1.0.7")
 
-    testImplementation("org.tree-ware.tree-ware-kotlin-core:test-fixtures:$treeWareCoreVersion")
+    testImplementation(libs.treeWareKotlinCoreTestFixtures)
     testImplementation(kotlin("test"))
 }
 
