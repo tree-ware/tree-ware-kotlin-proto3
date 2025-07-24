@@ -6,15 +6,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // conveys this.
 allprojects {
     group = "org.tree-ware.tree-ware-kotlin-proto3"
-    version = "0.4.0.0"
+    version = "0.5.0.0"
 }
 
 val protoVersion = "3.19.1"
 
 plugins {
-    kotlin("jvm") version "1.7.0"
+    kotlin("jvm") version "2.1.10"
     id("idea")
-    id("org.tree-ware.core") version "0.4.0.0"
+    id("org.tree-ware.core") version "0.5.0.0"
     id("java-library")
     id("com.google.protobuf").version("0.9.1")
     id("maven-publish")
@@ -23,11 +23,6 @@ plugins {
 repositories {
     mavenCentral()
     maven { url = uri("https://jitpack.io") }
-}
-
-tasks.withType<KotlinCompile> {
-    // Compile for Java 8 (default is Java 6)
-    kotlinOptions.jvmTarget = "1.8"
 }
 
 dependencies {
